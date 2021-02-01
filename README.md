@@ -45,15 +45,21 @@ What's sequence of candle we should expect after 2PM?
 # Tasks to reach our goal
 
 0. Read "Useful resources" (Everybody/ Partially done)
-1. Collect Data: (Everybody)
-    1. Raw data (Lena, Yusif/ Partially done)
-    2. Platform (Ilia/Partially done {Found a nice Platform, Created Account, need to write a Python script}))
-2. Discuss architecture details: (Everybody/Done )
-3. Distribute tasks (Done only on the following 2 weeks)
-4. Build and Train candle2Number interpreter 
-5. Build and Train Number2candle interpreter (Consider to use the previous one, needs subresearch)
-6. Build and Train the simplest Autoencoder 
-7. Glue parts together and enhance in case of need 
+1. Collect Data: (Everybody) (yahoo.finance)
+2. Train A CNN to extract data from a picture of a candle.
+    1. Draw Candle plots for a fixed range (maybe a month) and save them as jpeg/png.
+    2. Slice those candle plots into a single candle plot.
+    3. Create labels out of those candle pictures.
+3. Apply Classic Approaches for Time series data:
+    1. The autoregressive model AR(p).
+    2. The moving average MA(q) Model.
+    3. The ARMA(p,q) Model.
+    4. Maybe show partial autocorrelation function.
+4. Apply a NN:
+    1. Apply a time delay neural networks TDNN.
+    2. Apply a simple recurrent neural network RNN.
+    3. Apply a LSTM.
+5. Compare result.
     
 
 
