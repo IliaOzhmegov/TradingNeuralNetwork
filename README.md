@@ -63,4 +63,23 @@ What's sequence of candle we should expect after 2PM?
     
 
 
+# Initial Analysis 
+
+Candles for the whole period.
+
+![all_candels](images/SP500_all.png)
+
+There is something odd between 1948 and 1967.
+
+![all_candels_before_1962](images/SP500_before_1962.png)
+
+Red dots are barely seen. Let's look at those as on a line.
+
+![all_candels_before_1962](images/SP500_before_1962_line.png)
+
+Looks okay, but perhaps there was something wrong with data originally. So we 
+will ignore these data until `1962-01-03`. So we have the next data for every
+day (14 867 observations). 
+
+![all_candels_before_1962](images/SP500_after_1962.png)
 
