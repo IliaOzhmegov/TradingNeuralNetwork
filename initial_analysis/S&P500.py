@@ -40,3 +40,5 @@ fplt.plot(df,
           ylabel='Price ($)',
           style='yahoo',
           savefig = 'images/SP500_after_1962.png')
+
+df.to_csv("data/SP500.csv", index=True)
