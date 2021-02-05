@@ -34,8 +34,11 @@ class Scaler:
         invA = np.linalg.inv(A)
         tmp = invA @ B
 
-        self.__min = tmp[1][0]
-        self.__max = tmp[0][0]
+        self.__ymin = tmp[1][0]
+        self.__ymax = tmp[0][0]
+
+    def get_marigins(self):
+        return (self.__ymin, self.__ymax)
 
     def scale(self, y):
         ymin = self.__ymin
