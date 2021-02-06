@@ -81,14 +81,14 @@ GOAL: It is a well spread to suffer. Get used to it!
 3. Apply Classic Approaches for Time series data:
     1. The autoregressive model AR(p). | DONE
     2. The moving average MA(q) Model. | DONE
-    3. The ARMA(p,q) Model.
-    4. Maybe show partial autocorrelation function.
+    3. The ARMA(p,q) Model. | DONE
+    4. Maybe show partial autocorrelation function. | DONE
 4. Apply a NN:
     1. Apply a time delay neural networks TDNN.
     2. Apply a simple recurrent neural network RNN.
     3. Apply a LSTM.
 5. Compare result.
-    
+   
 
 
 # Initial Analysis 
