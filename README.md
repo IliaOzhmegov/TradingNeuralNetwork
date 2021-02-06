@@ -74,10 +74,10 @@ GOAL: It is a well spread to suffer. Get used to it!
 1. Collect Data: (Everybody) (yahoo.finance) | DONE
 2. Conduct an initial analysis. | DONE
 2. Train A CNN to extract data from a picture of a candle.
-    1. Draw Candle plots for a fixed range (maybe a month) and save them as jpeg/png. | NOT DONE yet
-    2. Slice those candle plots into a single candle plot. | NOT DONE yet
+    1. Draw Candle plots for a fixed range (maybe a month) and save them as jpeg/png. | DONE 
+    2. Slice those candle plots into a single candle plot. | DONE 
     3. Create labels out of those candle pictures. | DONE
-    4. Create CNN regression model for a candle.
+    4. Create CNN regression model for a candle. | in process
 3. Apply Classic Approaches for Time series data:
     1. The autoregressive model AR(p). | DONE
     2. The moving average MA(q) Model. | DONE
