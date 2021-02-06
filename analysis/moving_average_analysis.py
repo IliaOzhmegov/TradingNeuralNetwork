@@ -1,7 +1,10 @@
+# Created by Lena
 import pandas as pd
 import matplotlib.pyplot as plt
 import warnings
 warnings.filterwarnings('ignore')
+
+PATH = "plots/lena/"
 
 df = pd.read_csv("data/^GSPC.csv", index_col=0, parse_dates=True)
 df.head(10)
@@ -10,7 +13,7 @@ df.head(10)
 plt.figure(figsize = (15,10))
 df['Adj Close'].plot()
 plt.ylabel('Adjusted Close Price')
-plt.savefig("plots_lena/Adjusted_Closing_price")
+plt.savefig(PATH + "Adjusted_Closing_price")
 plt.show()
 
 #  Compute a short moving average of 253 days (MA253) - the number of trading days in a year
@@ -30,7 +33,7 @@ df['Adj Close'].plot(label = "Adjusted Close Price")
 df['MA Short'].plot(color = 'red', label = "MA 1 year")
 df['MA Long'].plot(color = 'green', label = "MA 5 years")
 plt.legend()
-plt.savefig("plots_lena/Moving_Average_all_time")
+plt.savefig(PATH + "Moving_Average_all_time")
 plt.show()
 
 
@@ -52,5 +55,5 @@ df_short['Adj Close'].plot(label = "Adjusted Close Price")
 df_short['MA Short'].plot(color = 'red', label = "MA 2 month")
 df_short['MA Long'].plot(color = 'green', label = "MA 1 year")
 plt.legend()
-plt.savefig("plots_lena/Moving_Average_10_years")
+plt.savefig(PATH + "Moving_Average_10_years")
 plt.show()
