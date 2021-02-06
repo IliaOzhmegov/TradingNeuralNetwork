@@ -1,3 +1,4 @@
+# Created by Lena
 from statsmodels.tsa.ar_model import AR
 from pandas.plotting import autocorrelation_plot
 from statsmodels.graphics.tsaplots import plot_acf
@@ -7,22 +8,24 @@ import matplotlib.pyplot as plt
 import warnings
 warnings.filterwarnings('ignore')
 
+PATH = "plots/lena/"
+
 df = pd.read_csv("data/^GSPC.csv", index_col=0, parse_dates=True)
 df.head(10)
 
 # checking for Autocorrelation
 # Autocorrelation plots
 autocorrelation_plot(df)
-plt.savefig("plots_lena/Autocorrelation plot")
+plt.savefig(PATH + "Autocorrelation plot")
 plt.show()
 
 # Autocorrelation Function (ACF) and Partial Autocorrelation Function (PACF) plots
 plot_acf(df["Adj Close"], lags=50) # lag 50 days
-plt.savefig("plots_lena/Autocorrelation Function plot")
+plt.savefig(PATH + "Autocorrelation Function plot")
 plt.show()
 
 plot_pacf(df["Adj Close"], lags=50)
-plt.savefig("plots_lena/Partial Autocorrelation Function plot")
+plt.savefig(PATH + "Partial Autocorrelation Function plot")
 plt.show()
 
 # If the time series is stationary, the ACF/PACF plots will show a quick drop-off in correlation after a
@@ -52,7 +55,7 @@ plt.plot(train, label = "Train Adjusted close price")
 plt.plot(train_predictions, color='red', label = "AR(p) model predictions")
 plt.title("Autoregressive model AR(p) - Train data")
 plt.legend()
-plt.savefig("plots_lena/AR_Train")
+plt.savefig(PATH + "AR_Train")
 plt.show()
 
 # plot AR model prediction results
@@ -61,7 +64,7 @@ plt.plot(test, label = "Test Adjusted close price")
 plt.plot(predictions, color='red', label = "AR(p) model predictions")
 plt.title("Autoregressive model AR(p) - Test data")
 plt.legend()
-plt.savefig("plots_lena/AR_Test")
+plt.savefig(PATH + "AR_Test")
 plt.show()
 
 # Train and test prediction results show that model is highly overfitted.
