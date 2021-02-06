@@ -11,7 +11,7 @@ from torchvision import datasets, transforms
 torch.manual_seed(2021)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-CATEGORIES = {
+Classes = {
     0: 'Price goes UP',
     1: 'Price goes DOWN',
     2: 'No changes in price',
