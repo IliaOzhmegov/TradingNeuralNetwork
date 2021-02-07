@@ -7,6 +7,9 @@ import matplotlib.image as mpl_img
 CANDLE_PATH = "plots/candles/"
 TARGET_PATH = "data/sequences/"
 
+IMAGES_PATH = "data/translator_dataset/images.npy"
+TARGETS_PATH = "data/translator_dataset/targets.npy"
+
 
 def load_dataset():
     # load dataset
@@ -57,7 +60,7 @@ def load_dataset():
 
 dataset = load_dataset()
 
-np.save("data/translator_dataset/images.npy", dataset[0])
-np.save("data/translator_dataset/labels.npy", dataset[1])
+np.save(TARGETS_PATH, dataset[1])
+np.save(IMAGES_PATH, dataset[0])
 
 
