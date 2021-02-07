@@ -60,10 +60,11 @@ train = transformed_values[:25, :]
 test = transformed_values[25:, :]
 
 # split into input and outputs
-train_X, train_y = train[:, :19], train[:, 19:]
-test_X, test_y = test[:, :19], test[:, 19:]
+train_X, train_y = train[:, :4], train[:, 4:]
+test_X, test_y = test[:, :4], test[:, 4:]
 
 # reshape input to be 3D (samples, timesteps, features)
 train_X = train_X.reshape((train_X.shape[0], 1, train_X.shape[1]))
 test_X = test_X.reshape((test_X.shape[0], 1, test_X.shape[1]))
 print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
+
