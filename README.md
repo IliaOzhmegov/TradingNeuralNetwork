@@ -173,9 +173,11 @@ If the time series is stationary, the ACF / PACF plots will show a quick drop-of
 
 Next, we fit AR model and compare the fitted train values and the test predictions for the last 5 years.
 
-![AR_Train](plots/lena/AR_train.png)
+![train_AR](plots/lena/AR_Train.png)
 
-![AR_test](plots/lena/AR_test.png)
+![test_AR](plots/lena/AR_Test.png)
+
+
 
 Train and test prediction results show that model is highly overfitted - it can't generalise well and performs poorly on unseen test data - resulting in linear fit.
 
