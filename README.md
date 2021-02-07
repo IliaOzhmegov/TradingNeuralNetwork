@@ -77,7 +77,7 @@ GOAL: It is a well spread to suffer. Get used to it!
     1. Draw Candle plots for a fixed range (maybe a month) and save them as jpeg/png. | DONE 
     2. Slice those candle plots into a single candle plot. | DONE 
     3. Create labels out of those candle pictures. | DONE
-    4. Create CNN regression model for a candle. | in process
+    4. Create CNN regression model for a candle. | DONE
 3. Apply Classic Approaches for Time series data:
     1. The autoregressive model AR(p). | DONE
     2. The moving average MA(q) Model. | DONE
