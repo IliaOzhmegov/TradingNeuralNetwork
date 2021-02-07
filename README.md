@@ -137,7 +137,7 @@ Now we apply MA(q) approach. The idea of the Moving Average mathod is that we us
 
 We compute a short moving average of one 1 year (MA253 - days) - the number of trading days in a year, and a long moving average of 5 years (MA1265 - days) of the Adj. Close Price.
 
-![MA_all_time](plots/lena/Moving_Average_All_time.png)
+![historical_MA](plots/lena/Moving_Average_all_time.png)
 
 We can see that the Adjusted Close Price has been nicely smoothed out. 
 
@@ -173,7 +173,9 @@ If the time series is stationary, the ACF / PACF plots will show a quick drop-of
 
 Next, we fit AR model and compare the fitted train values and the test predictions for the last 5 years.
 
-![AR_Train](plots/lena/AR_train.png)![AR_test](plots/lena/AR_test.png)
+![AR_Train](plots/lena/AR_train.png)
+
+![AR_test](plots/lena/AR_test.png)
 
 Train and test prediction results show that model is highly overfitted - it can't generalise well and performs poorly on unseen test data - resulting in linear fit.
 
