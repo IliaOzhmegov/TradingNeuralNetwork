@@ -111,3 +111,111 @@ day (14 867 observations).
 
 ![all_candels_before_1962](plots/initial_analysis/SP500_after_1962.png)
 
+
+
+
+
+# Classic Approaches to Time Series data 
+
+
+
+We explore three main Time Series Analysis methods:
+
+1. Moving Average model MA(q).
+2. Autoregressive model AR(p).
+3. The  Autoregressive and Moving Average model ARMA(p,q).
+
+
+
+**Moving Average model MA(q)**
+
+We start with one of the oldest and simplest time series approaches is the moving average of the stock price to proxy the recent trend of the price. Let us looks at the historical Adjusted Close Price of our S&P500 index for the entire period.
+
+![historical_adj_close_price](plots/lena/Adjusted_Closing_price.png)
+
+Now we apply MA(q) approach. The idea of the Moving Average mathod is that we use a q-day moving average of our price of our index, then a significant portion of the daily price noise will have been "averaged-out", so we smooth out short-term fluctuations. Thus, we can can observe more closely the longer-term behaviour of the asset, without the noise.
+
+We compute a short moving average of one 1 year (MA253 - days) - the number of trading days in a year, and a long moving average of 5 years (MA1265 - days) of the Adj. Close Price.
+
+![MA_all_time](plots/lena/Moving_Average_All_time.png)
+
+We can see that the Adjusted Close Price has been nicely smoothed out. 
+
+Now let us explore the more recent data. We now look at the the last 10 years of the data and our short term MA is 44 days (2 month - 22 trading days on average in a month) and long term MA is 1 year MA(253).
+
+![MA_10_years](plots/lena/Moving_Average_10_years.png)
+
+The general trend is very clear.
+
+
+
+**Autoregressive model AR(p)**
+
+In an Autoregressive model, we forecast the Adjusted Close price using a linear combination of past values of the variable. The term autoregression indicates that it is a regression of the variable against itself - AR(p) model, an autoregressive model of order p.
+
+We first check our data for autocorrelation.
+
+![Autocorrelation_plot](plots/lena/Autocorrelation plot.png)
+
+
+
+We can observe a strong positive autocorrelation for the first 5000 lags.
+
+Now let us explore Autocorrelation Function ACF (left), and Partial Autocorrelation Function PACF (right).
+
+
+
+<img src="plots/lena/Autocorrelation Function plot.png" alt="ACF_plot" style="zoom:60%;" /><img src="plots/lena/Partial Autocorrelation Function plot.png" alt="ACF_plot" style="zoom:60%;" />
+
+
+
+If the time series is stationary, the ACF / PACF plots will show a quick drop-off in correlation after a small amount of lag between points. Our data is non-stationary as a high number of previous observations are correlated with future values.
+
+Next, we fit AR model and compare the fitted train values and the test predictions for the last 5 years.
+
+![AR_Train](plots/lena/AR_train.png)![AR_test](plots/lena/AR_test.png)
+
+Train and test prediction results show that model is highly overfitted - it can't generalise well and performs poorly on unseen test data - resulting in linear fit.
+
+
+
+**Auto Regression and Moving Average model ARMA(p,q)**
+
+ARMA models combine autoregressive and moving average models and used to forecast a time series. The notation ARMA(p, q) refers to the model with p autoregressive terms and q moving-average terms.
+
+The method is suitable for univariate time series without trend and seasonal components, this is why we first try to make our time series stationary. This is what our data and residuals look like after Log scale transformation.
+
+<img src="plots/lena/Log Transformed Adjusted Close Price.png" alt="ACF_plot" style="zoom:60%;" /><img src="plots/lena/Log Transformed Residuals.png" alt="ACF_plot" style="zoom:60%;" />
+
+
+
+We can also do a seasonal decomposition to detect seasonality in out data.
+
+
+
+![AR_test](plots/lena/Seasonal Decomposition.png)
+
+
+
+There is strange trend in seasonality - it might be because of non-stationarity of the data plus a very long time span.
+
+Next, we apply the ARMA(2,0) model to the log transfomed Adjusted Close Price (AR order 2, MA order 0). We compare fitted values of the train data (left) and test predictions for the last 5 years (right).
+
+<img src="plots/lena/ARMA log Fitted Values.png" alt="ACF_plot" style="zoom:26.5%;" /><img src="plots/lena/ARMA Predictions.png" alt="ACF_plot" style="zoom:26.5%;" />
+
+
+
+Let us also fit ARMA(4,2) model (AR order 2, MA order 0) to the log residuals and see if this has any different effect. The train fitted residuals are on the left and test residual predictions (last 5 years) are on the right.
+
+<img src="plots/lena/ARMA log Fitted Residuals.png" alt="ACF_plot" style="zoom:26.5%;" /><img src="plots/lena/ARMA Residuals Predictions.png" alt="ACF_plot" style="zoom:26.5%;" />
+
+
+
+Again, as with AR model, ARMA model is highly overfitted and gives very poor predictions.
+
+
+
+**Conclusion**
+
+Classic Statistical approaches to Time Series data are really good to analize the structure of the data. But they are generally  give poor prediction results, especially the case of non-stationary data. Even after we try to induce the stationarity to the data - the models still don't perform well. One of the possible applications of these methods are for short time windows. Classic statistical methods might be more suitable for short term spans.
+
