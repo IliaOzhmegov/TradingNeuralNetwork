@@ -54,7 +54,7 @@ def slice_candle_plot(i, n_predictors):
     y = 5
     h = 200
     x = 15
-    w = 1135
+    w = 1137
 
     img = cv2.imread(PATH)
     crop_img = img[y:y+h, x:x+w]
@@ -87,7 +87,7 @@ if __name__ == "__main__":
     df['Date'] = df['Date'].map(mpdates.date2num)  # I actually don't need real dates
 
     n_predictors = 30
-    start = 300
+    start = 0
     # n = df.shape[0]
     n = 1000 + n_predictors
 
