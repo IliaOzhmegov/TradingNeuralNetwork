@@ -37,6 +37,7 @@ goal of using them to buy and sell shares of stock in order to make a profit.
 * [Stock Market Buy/Sell/Hold prediction Using convolutional Neural Network](https://github.com/nayash/stock_cnn_blog_pub)
 * [Kaggle: Predicting Stock Buy/Sell signal using CNN](https://www.kaggle.com/darkknight91/predicting-stock-buy-sell-signal-using-cnn/#data)
 * [yahoo finance](https://finance.yahoo.com/quote/BTCUSD%3DX/history?p=BTCUSD%3DX)
+* [Gentle Introduction to Models for Sequence Prediction with RNNs] (https://machinelearningmastery.com/models-sequence-prediction-recurrent-neural-networks/)
 
 # Intro
 
