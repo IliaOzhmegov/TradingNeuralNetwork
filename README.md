@@ -134,6 +134,26 @@ The original data is located in the "^GSPC" csv file. Name "^GSPC" is the listed
 
 
 
+The time span of our data is from December 30, 1927 to January 22, 2021 - almost hundred years of data. 
+
+Also, there is a shortened version of the raw data - the "SP500" csv file. Since more reliable data is from aproximatelly 1962, we have discarted the data before January 2, 1962. More on this in the following chapter "Initial Analysis".
+
+In addition, as part of the data preparation, we have create the sequences of the data. They were created by building a custom sequence distributor (see sequence_distributor.py) to slice data into the small windows of 30 days each, which will be used as predictors, and the slices with the span of 5 days - the target values that need to be predicted. The predictor and target data were scaled separetelly using different approaches. So overall we have created 14,832 sequences. These sequences were used as an inputs for our Time Series Neural Networks: TDNN, LSTM, RNN.
+
+
+
+**Candles.**
+
+Other part of our data preparation process we have created an images of the candles. This was a tedious process, where we had to create candle plots and "cut-out" each vandle separately. In addition, we have added a backgroud noise. Here are the samples of these candles.
+
+
+
+<img src="plots/candles/2_0.png" alt="ACF_plot" style="zoom:100%;" /><img src="plots/candles/3_26.png" alt="ACF_plot" style="zoom:100%;" /><img src="plots/candles/3_20.png" alt="ACF_plot" style="zoom:100%;" /><img src="plots/candles/4_2.png" alt="ACF_plot" style="zoom:100%;" /><img src="plots/candles/232_22.png" alt="ACF_plot" style="zoom:100%;" />
+
+
+
+These images of the candles were used as an input for CNN. More on the CNN methods later in the report.
+
 
 
 
