@@ -148,7 +148,7 @@ Other part of our data preparation process we have created an images of the cand
 
 
 
-<img src="plots/candles/2_0.png" alt="ACF_plot" style="zoom:100%;" /><img src="plots/candles/3_26.png" alt="ACF_plot" style="zoom:100%;" /><img src="plots/candles/3_20.png" alt="ACF_plot" style="zoom:100%;" /><img src="plots/candles/4_2.png" alt="ACF_plot" style="zoom:100%;" /><img src="plots/candles/232_22.png" alt="ACF_plot" style="zoom:100%;" />
+<img src="plots/candles/2_0.png" alt="ACF_plot" style="zoom:100%;" />      <img src="plots/candles/3_26.png" alt="ACF_plot" style="zoom:100%;" />       <img src="plots/candles/3_20.png" alt="ACF_plot" style="zoom:100%;" />        <img src="plots/candles/4_2.png" alt="ACF_plot" style="zoom:100%;" />       <img src="plots/candles/232_22.png" alt="ACF_plot" style="zoom:100%;" />
 
 
 
