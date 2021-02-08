@@ -38,33 +38,52 @@ goal of using them to buy and sell shares of stock in order to make a profit.
 * [Kaggle: Predicting Stock Buy/Sell signal using CNN](https://www.kaggle.com/darkknight91/predicting-stock-buy-sell-signal-using-cnn/#data)
 * [yahoo finance](https://finance.yahoo.com/quote/BTCUSD%3DX/history?p=BTCUSD%3DX)
 
-# Intro
+# Introduction
 
-We want to build a DNN that can predict the following trend by candle plot.
+Stock Market is very inpredictibale and throughout it's history there have been many attempts to try to predict it's movement.
+
+There are many useful computational intelligence techniques for financial trading systems, including traditional Time Series analysis as well as newer more advanced methods such as Neural Networks. In our research we will look into both: the classic Time Series analysis, such as Moving Average, Autoregressive and ARMA models, as well as Neural Nets, such as Time Delay NN, RNN, LSTM and CNN.
+
+CNN for trading or for predicting the stock market price movement, is a very new and recent approach that is still being researched and developed. So our attempt to try to build the CNN for trading predictions is purely for research and educational purposes.
+
+For our reaseach we decided to use S&P500 index historical data.
+
+Many traders predict the market movement by analizing so salled candle plots. We want to build a DNN that can predicts the following trend by candle plot image. 
+
+
 
 ![candleplot](images/candleplot.png)
 
-Every candle represents a certain time interval 1 day, 1 hour or 1 minute. Now 
-let me briefly explain to you what does mean every bar that usually 
-called a "candle".
+
+
+**How does candle plot work?**
+
+Every candle represents a certain time interval 1 day, 1 hour or 1 minute. Now  let us briefly explain to you what does mean every bar that usually is called a "candle" (because it resebles the candle).
 
 ![bar_explanation](images/bar_explanation.jpeg)
 
-Weeeell, we have red and blue or usually green candles on the picture. And upper
-and lower tails shows us the highest and lowest prices respectively. Whereas, 
-upper and downer sides of the bar show us opening price and closing not respectively.
-If the bar is blue or green it means the opening price is lower than closing. 
-If the bar is red vice versa.
+
+
+We have red and blue or usually green candles as on the picture. Red color traditionaly represents a downward movement, e.i. if the openning price was higher that a close price.  Naturally green color (or blue) of the candle means that the price went up and that our close price is higher that the open price. And upper and lower tails shows us the highest and lowest prices respectively. Whereas,  upper and downer sides of the bar show us opening price and closing not respectively.
+
 
 # Our main goal
 
-To have fun and finally to fill gaps from the last term in Deep Learning 
-(LSTM, autoencoders). Also, to build a NN that allows to predict to following 
-trend by the history right before it.
+To have fun and finally to fill gaps from the last term in Deep Learning  (LSTM, TDNN, RNN). Also, to build a NN that allows to predict to following  trend by the history right before it.
+
+
 
 ![goalplot](images/goalplot.png)
 
 What's sequence of candle we should expect after 2PM?
+
+We would like to biuld a tool for making a predictions from the candle plot, where user can select an area as shown below, and receive a prediction about the movement of the price of the S&P500 index.
+
+
+
+![goalplot11](images/area_selection.png)
+
+
 
 # Tasks to reach our goal
 
@@ -87,8 +106,63 @@ GOAL: It is a well spread to suffer. Get used to it!
     1. Apply a time delay neural networks TDNN.
     2. Apply a simple recurrent neural network RNN.
     3. Apply a LSTM.
-5. Compare result.
-   
+6. Compare results.
+
+
+
+# Data 
+
+
+
+We have used  S&P500 index historical data for our research. We have collected the raw data from https://finance.yahoo.com/.  This is what S&P500 index looks like on the website.
+
+
+
+![yahoo](images/yahoo.png)
+
+
+
+**Why S&P 500?**
+
+S&P500 is a stock market index that measures the stock performance of 500 large companies listed on stock exchanges in the United States. For example, the 10 largest companies in the index, in order of weighting, are Apple Inc., Microsoft, Amazon.com, Facebook, Tesla, Inc., Alphabet Inc., Berkshire Hathaway, Johnson & Johnson, and JPMorgan Chase & Co., respectively.
+
+It is one of the most commonly followed equity indices. The reason why is it so popular is because it reflects the overall state of the economy really well. 
+
+It is also well established trading index with relatively non-volitile performance. The average annual total return and compound annual growth rate of the index, including dividends, since inception in 1926 has been approximately 9.8%, or 6% after inflation; however, there were several years where the index declined over 30%. The index has posted annual increases 70% of the time. However, the index has only made new highs on 5% of trading days, meaning that on 95% of trading days, the index has closed below its all-time high.
+
+Initially we intended to use Bitcoin data for our research. But for reasons above, we have decided to focus our research on S&P500 index instead of Bitcoin, which is relatively new actor on the market with very high volaitlity.
+
+
+
+**Data Description.**
+
+The original data is located in the "^GSPC" csv file. Name "^GSPC" is the listed symbol of the S&P500 on the NYSE, Cboe BZX Exchange, NASDAQ exchanges. Data consists of 163,638 observations and 7 variables, including: Date, Open, High, Low, Close, Adjusted Close prices and volume. Here is the sample.
+
+![yahoo](images/gspc.png)
+
+
+
+The time span of our data is from December 30, 1927 to January 22, 2021 - almost hundred years of data. 
+
+Also, there is a shortened version of the raw data - the "SP500" csv file. Since more reliable data is from aproximatelly 1962, we have discarted the data before January 2, 1962. More on this in the following chapter "Initial Analysis".
+
+In addition, as part of the data preparation, we have create the sequences of the data. They were created by building a custom sequence distributor (see sequence_distributor.py) to slice data into the small windows of 30 days each, which will be used as predictors, and the slices with the span of 5 days - the target values that need to be predicted. The predictor and target data were scaled separetelly using different approaches. So overall we have created 14,832 sequences. These sequences were used as an inputs for our Time Series Neural Networks: TDNN, LSTM, RNN.
+
+
+
+**Candles.**
+
+Other part of our data preparation process we have created an images of the candles. This was a tedious process, where we had to create candle plots and "cut-out" each vandle separately. In addition, we have added a backgroud noise. Here are the samples of these candles.
+
+
+
+<img src="plots/candles/2_0.png" alt="ACF_plot" style="zoom:100%;" />      <img src="plots/candles/3_26.png" alt="ACF_plot" style="zoom:100%;" />       <img src="plots/candles/3_20.png" alt="ACF_plot" style="zoom:100%;" />        <img src="plots/candles/4_2.png" alt="ACF_plot" style="zoom:100%;" />       <img src="plots/candles/232_22.png" alt="ACF_plot" style="zoom:100%;" />
+
+
+
+These images of the candles were used as an input for CNN. More on the CNN methods later in the report.
+
+
 
 
 # Initial Analysis 
@@ -110,4 +184,116 @@ will ignore these data until `1962-01-03`. So we have the next data for every
 day (14 867 observations). 
 
 ![all_candels_before_1962](plots/initial_analysis/SP500_after_1962.png)
+
+
+
+
+
+# Classic Approaches to Time Series data 
+
+
+
+We explore three main Time Series Analysis methods:
+
+1. Moving Average model MA(q).
+2. Autoregressive model AR(p).
+3. The  Autoregressive and Moving Average model ARMA(p,q).
+
+
+
+**Moving Average model MA(q)**
+
+We start with one of the oldest and simplest time series approaches is the moving average of the stock price to proxy the recent trend of the price. Let us looks at the historical Adjusted Close Price of our S&P500 index for the entire period.
+
+![historical_adj_close_price](plots/lena/Adjusted_Closing_price.png)
+
+Now we apply MA(q) approach. The idea of the Moving Average mathod is that we use a q-day moving average of our price of our index, then a significant portion of the daily price noise will have been "averaged-out", so we smooth out short-term fluctuations. Thus, we can can observe more closely the longer-term behaviour of the asset, without the noise.
+
+We compute a short moving average of one 1 year (MA253 - days) - the number of trading days in a year, and a long moving average of 5 years (MA1265 - days) of the Adj. Close Price.
+
+![historical_MA](plots/lena/Moving_Average_all_time.png)
+
+We can see that the Adjusted Close Price has been nicely smoothed out. 
+
+Now let us explore the more recent data. We now look at the the last 10 years of the data and our short term MA is 44 days (2 month - 22 trading days on average in a month) and long term MA is 1 year MA(253).
+
+![MA_10_years](plots/lena/Moving_Average_10_years.png)
+
+The general trend is very clear.
+
+
+
+**Autoregressive model AR(p)**
+
+In an Autoregressive model, we forecast the Adjusted Close price using a linear combination of past values of the variable. The term autoregression indicates that it is a regression of the variable against itself - AR(p) model, an autoregressive model of order p.
+
+We first check our data for autocorrelation.
+
+![Autocorrelation_plot](plots/lena/Autocorrelation plot.png)
+
+
+
+We can observe a strong positive autocorrelation for the first 5000 lags.
+
+Now let us explore Autocorrelation Function ACF (left), and Partial Autocorrelation Function PACF (right).
+
+
+
+<img src="plots/lena/Autocorrelation Function plot.png" alt="ACF_plot" style="zoom:60%;" /><img src="plots/lena/Partial Autocorrelation Function plot.png" alt="ACF_plot" style="zoom:60%;" />
+
+
+
+If the time series is stationary, the ACF / PACF plots will show a quick drop-off in correlation after a small amount of lag between points. Our data is non-stationary as a high number of previous observations are correlated with future values.
+
+Next, we fit AR model and compare the fitted train values and the test predictions for the last 5 years.
+
+![train_AR](plots/lena/AR_Train.png)
+
+![test_AR](plots/lena/AR_Test.png)
+
+
+
+Train and test prediction results show that model is highly overfitted - it can't generalise well and performs poorly on unseen test data - resulting in linear fit.
+
+
+
+**Auto Regression and Moving Average model ARMA(p,q)**
+
+ARMA models combine autoregressive and moving average models and used to forecast a time series. The notation ARMA(p, q) refers to the model with p autoregressive terms and q moving-average terms.
+
+The method is suitable for univariate time series without trend and seasonal components, this is why we first try to make our time series stationary. This is what our data and residuals look like after Log scale transformation.
+
+<img src="plots/lena/Log Transformed Adjusted Close Price.png" alt="ACF_plot" style="zoom:60%;" /><img src="plots/lena/Log Transformed Residuals.png" alt="ACF_plot" style="zoom:60%;" />
+
+
+
+We can also do a seasonal decomposition to detect seasonality in out data.
+
+
+
+![AR_test](plots/lena/Seasonal Decomposition.png)
+
+
+
+There is strange trend in seasonality - it might be because of non-stationarity of the data plus a very long time span.
+
+Next, we apply the ARMA(2,0) model to the log transfomed Adjusted Close Price (AR order 2, MA order 0). We compare fitted values of the train data (left) and test predictions for the last 5 years (right).
+
+<img src="plots/lena/ARMA log Fitted Values.png" alt="ACF_plot" style="zoom:26.5%;" /><img src="plots/lena/ARMA Predictions.png" alt="ACF_plot" style="zoom:26.5%;" />
+
+
+
+Let us also fit ARMA(4,2) model (AR order 2, MA order 0) to the log residuals and see if this has any different effect. The train fitted residuals are on the left and test residual predictions (last 5 years) are on the right.
+
+<img src="plots/lena/ARMA log Fitted Residuals.png" alt="ACF_plot" style="zoom:26.5%;" /><img src="plots/lena/ARMA Residuals Predictions.png" alt="ACF_plot" style="zoom:26.5%;" />
+
+
+
+Again, as with AR model, ARMA model is highly overfitted and gives very poor predictions.
+
+
+
+**Conclusion**
+
+Classic Statistical approaches to Time Series data are really good to analize the structure of the data. But they generally  give poor prediction results, especially the case of non-stationary data. Even after we try to induce the stationarity to the data - the models still don't perform well. One of the possible applications of these methods are for short time windows. Classic statistical methods might be more suitable for short term spans.
 
