@@ -69,13 +69,21 @@ We have red and blue or usually green candles as on the picture. Red color tradi
 
 # Our main goal
 
-To have fun and finally to fill gaps from the last term in Deep Learning 
-(LSTM, autoencoders). Also, to build a NN that allows to predict to following 
-trend by the history right before it.
+To have fun and finally to fill gaps from the last term in Deep Learning  (LSTM, TDNN, RNN). Also, to build a NN that allows to predict to following  trend by the history right before it.
+
+
 
 ![goalplot](images/goalplot.png)
 
 What's sequence of candle we should expect after 2PM?
+
+We would like to biuld a tool for making a predictions from the candle plot, where user can select an area as shown below, and receive a prediction about the movement of the price of the S&P500 index.
+
+
+
+![goalplot11](images/area_selection.png)
+
+
 
 # Tasks to reach our goal
 
