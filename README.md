@@ -38,6 +38,7 @@ goal of using them to buy and sell shares of stock in order to make a profit.
 * [Kaggle: Predicting Stock Buy/Sell signal using CNN](https://www.kaggle.com/darkknight91/predicting-stock-buy-sell-signal-using-cnn/#data)
 * [yahoo finance](https://finance.yahoo.com/quote/BTCUSD%3DX/history?p=BTCUSD%3DX)
 * [Gentle Introduction to Models for Sequence Prediction with RNNs] (https://machinelearningmastery.com/models-sequence-prediction-recurrent-neural-networks/)
+* [Crypto Fear & Greed Index - Bitcoin Sentiment, Emotion Analysis] (https://alternative.me/crypto/fear-and-greed-index/)
 
 # Intro
 
@@ -120,7 +121,7 @@ All cryptocurrencies are the part of developing market which is subject to const
 
 ![BTC's volatility](images/BTC_volatility_daily.jpeg)
 
-While the plot above clearly represents BTC's high volatility. There is also another aspect which makes analyzing and predicting prices of crypto a bit hard - we do not know what exactly influences the
+While the plot above clearly represents BTC's high volatility. There is also another aspect which makes analyzing and predicting prices of crypto a bit hard - we do not know what exactly influences the prices. When we speak about company's stock (like Apple - AAPL or Goggle - GOOG stocks) you can rely on the company's revenues and financial reports/audits to make certain assumptions about the future price change and historical factors which influenced the change. The situation with crypto is not so obvious. There is a very sophisitcated analysis done to find the influencing factors (incl. buy and sell orders). 
 
 
 ## Bear vs Bull 
