@@ -90,7 +90,43 @@ GOAL: It is a well spread to suffer. Get used to it!
     3. Apply a LSTM.
 5. Compare result.
     
+# Financial & Trading Background 
 
+As you have guessed so far the project is mainly focused on financial domain. We think it would be a good idea to provide you with some guidance into the complicated world of trading and finance in order to give a better overview and justification of some of our choices. 
+
+## Volatility 
+
+Simply speaking volatility is [*a measurement of price change*] (https://www.wallstreetmojo.com/volatility-formula/) of a certain asset or stock. Volatility is also associated with the risk of a certain asset.  
+
+To put it into context: 
+
+*  High volatility - suggests that the asset is subject to sharp price fluctuations. Consequently that would  mean that investing into such an asset will be associated with higher risks as there can be a negative spike in the price. On the other side such an asset is attractive to investors/traders as a positive spike may result in a large profit. 
+* Low volatility - suggests that the asset is subject to very little or almost no price fluctuations. Investment into such assets is associated with lower risks. Usually low volatility is relevant for well-established or old markets.
+
+At this point you probably would ask yourself whether CSPC and SP500 indexes are highly volatile? 
+
+The answer is - mostly, or event better -  relatively no. 
+
+Why this is important? Well, lowly volatile assets are usually part of a well-established market which is not subject to dramatic changes. This is good from data perspective, as the models are usually better predicting  such kind of data rather the one which is subject to constant strong fluctuations. So data-wise the choice was clear. 
+
+In the light of recent events, you probably may ask yourself two questions:
+
+* Why not BTC/ETH or any cryptocurrency?
+* What would happen if the situation like with GameStop or Silver occurs? 
+
+##### Why not crypto?
+
+All cryptocurrencies are the part of developing market which is subject to constant dramatic changes (look at BTC & ETH price fluctuations). This would give us a hard time training our models. Additionally, from statistical point of view all cryptocurrencies are highly volatile.
+
+![BTC's volatility](images)
+
+
+
+## Bear vs Bull 
+
+Or also Bear vs Bullish market - what that actually means and why is that important? 
+
+![Bear_Market_VS_Bull_Market](images/)
 
 # Initial Analysis 
 
