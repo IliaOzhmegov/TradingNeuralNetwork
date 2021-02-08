@@ -172,9 +172,20 @@ class WindowGenerator:
                         edgecolors='k', label='Labels', c='#2ca02c', s=64)
             if model is not None:
                 predictions = model(inputs)
-                plt.scatter(self.label_indices, predictions[n, :, label_col_index],
-                            marker='X', edgecolors='k', label='Predictions',
-                            c='#ff7f0e', s=64)
+                try:
+                    plt.scatter(self.label_indices, predictions[n, :, label_col_index],
+                                marker='X', edgecolors='k', label='Predictions',
+                                c='#ff7f0e', s=64)
+                except:
+                    lab_n = len(self.label_indices)
+                    pre_n = len(predictions[n, :, label_col_index])
+                    min_n = min(lab_n, pre_n)
+                    x = self.label_indices[(lab_n - min_n): lab_n]
+                    y = predictions[n, :, label_col_index][(pre_n - min_n): pre_n]
+
+                    plt.scatter(x, y,
+                                marker='X', edgecolors='k', label='Predictions',
+                                c='#ff7f0e', s=64)
 
             if n == 0:
                 plt.legend()
