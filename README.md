@@ -118,7 +118,7 @@ In the light of recent events, you probably may ask yourself two questions:
 
 All cryptocurrencies are the part of developing market which is subject to constant dramatic changes (look at BTC & ETH price fluctuations). This would give us a hard time training our models. Additionally, from statistical point of view all cryptocurrencies are highly volatile.
 
-![BTC's volatility](images)
+![BTC's volatility](images/BTC_volatility_daily.jpeg)
 
 
 
