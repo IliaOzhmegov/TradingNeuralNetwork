@@ -123,7 +123,9 @@ All cryptocurrencies are the part of developing market which is subject to const
 
 While the plot above clearly represents BTC's high volatility. There is also another aspect which makes analyzing and predicting prices of crypto a bit hard - we do not know what exactly influences the prices. When we speak about company's stock (like Apple - AAPL or Goggle - GOOG stocks) you can rely on the company's revenues and financial reports/audits to make certain assumptions about the future price change and historical factors which influenced the change. The situation with crypto is not so obvious. There is a very sophisitcated analysis done to find the influencing factors (incl. buy and sell orders). A nice example of such an analysis - [Crypto Fear & Greed Index - Bitcoin Sentiment, Emotion Analysis](https://alternative.me/crypto/fear-and-greed-index/)
 
-##### What if situation like with GameStock happens
+##### What if situation like with GameStock happens?
+
+![GameStop_Prices_Raising](images/gamestop-stock-rise.jpg)
 
 If the sitaution like that happens, probably our model and most exisitng models there won't be able to forsee that. Since such a behaviour is caused by factors which were not introduced before, the models won't be prepared for that. Probably considering the number so called buy/sell orders could help to predict that bu there is also the small delay between the number of buy orders increasing (as it was with GameStop) and price increasing as well. 
 
