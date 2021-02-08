@@ -40,6 +40,16 @@ goal of using them to buy and sell shares of stock in order to make a profit.
 * [Gentle Introduction to Models for Sequence Prediction with RNNs](https://machinelearningmastery.com/models-sequence-prediction-recurrent-neural-networks/)
 * [Crypto Fear & Greed Index - Bitcoin Sentiment, Emotion Analysis](https://alternative.me/crypto/fear-and-greed-index/)
 
+## Brief overview of the resources 
+
+##### Convolutional Networks for Stock Trading, Stanford
+
+The place where everything started. While we had an idea on trying to visually predict the movement of stock prices, we decided to do a bit of research and this paper was among the first we had found. The paper gives an overview of applying the CNN on the graph of time series for past prices (as opposed to our research where we use candles instead) in order to make future price predictions.  The purpose of predicting the stock prices is simply to make profit. If the model predicts the movement correctly then that will result in profit for investor/trader making decisions based on that. The paper also mentions a very important aspect related to ML and AI in general - whether a presence of such tool in the market will have any dramatic impact on the market itself. All in all, the project resulted in some little success. The author suggests that for high frequencies of data it is better to use a classification approach as the price fluctuations within small periods are very minimal. 
+
+##### A quantitative trading method using deep convolution neural network
+
+The Deep convolution neural network has been a great success in field of image processing,but rarely applied in market portfolios. Theh paper oveviews the potential application of such networks into analyzing time series stock data and making predictions based on that. Some of suggestions from this paper were used to choose the models. 
+
 # Intro
 
 We want to build a DNN that can predict the following trend by candle plot.
