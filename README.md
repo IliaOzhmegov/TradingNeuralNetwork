@@ -96,7 +96,7 @@ We would like to biuld a tool for making a predictions from the candle plot, whe
 ![goalplot11](images/area_selection.png)
 
 
-    
+​    
 # Financial & Trading Background 
 
 As you have guessed so far the project is mainly focused on financial domain. We think it would be a good idea to provide you with some guidance into the complicated world of trading and finance in order to give a better overview and justification of some of our choices. 
