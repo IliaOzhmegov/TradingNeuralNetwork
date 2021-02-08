@@ -126,7 +126,7 @@ All cryptocurrencies are the part of developing market which is subject to const
 
 Or also Bear vs Bullish market - what that actually means and why is that important? 
 
-![Bear_Market_VS_Bull_Market](images/)
+![Bear_Market_VS_Bull_Market](images/Bear_vs_Bull_Cartoon.jpg)
 
 # Initial Analysis 
 
