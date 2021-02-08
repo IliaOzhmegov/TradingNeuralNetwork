@@ -136,7 +136,7 @@ Or also Bear vs Bullish market - what that actually means and why is that import
 
 ![Bear_Market_VS_Bull_Market](images/Bear_vs_Bull_Cartoon.jpg)
 
-Simply bull market is an optimistic market which faces a positive trand in the assets's prices and bear market is the market facing a decrease in prices due to depressive enviroment or to the fact that the investors do not believe in the market. 
+Simply bull market is an optimistic market which faces a positive trand in the assets' prices and bear market is the market facing a decrease in prices due to depressive enviroment or to the fact that the investors do not believe in the market. 
 
 ![Bear_Market_VS_Bull_Market_Projected_Onto_stock_Prices](images/Bear-Bull_Illusttrated.png)
 
