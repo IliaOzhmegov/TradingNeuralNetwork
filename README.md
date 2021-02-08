@@ -37,6 +37,18 @@ goal of using them to buy and sell shares of stock in order to make a profit.
 * [Stock Market Buy/Sell/Hold prediction Using convolutional Neural Network](https://github.com/nayash/stock_cnn_blog_pub)
 * [Kaggle: Predicting Stock Buy/Sell signal using CNN](https://www.kaggle.com/darkknight91/predicting-stock-buy-sell-signal-using-cnn/#data)
 * [yahoo finance](https://finance.yahoo.com/quote/BTCUSD%3DX/history?p=BTCUSD%3DX)
+* [Gentle Introduction to Models for Sequence Prediction with RNNs](https://machinelearningmastery.com/models-sequence-prediction-recurrent-neural-networks/)
+* [Crypto Fear & Greed Index - Bitcoin Sentiment, Emotion Analysis](https://alternative.me/crypto/fear-and-greed-index/)
+
+## Brief overview of the resources 
+
+##### Convolutional Networks for Stock Trading, Stanford
+
+The place where everything started. While we had an idea on trying to visually predict the movement of stock prices, we decided to do a bit of research and this paper was among the first we had found. The paper gives an overview of applying the CNN on the graph of time series for past prices (as opposed to our research where we use candles instead) in order to make future price predictions.  The purpose of predicting the stock prices is simply to make profit. If the model predicts the movement correctly then that will result in profit for investor/trader making decisions based on that. The paper also mentions a very important aspect related to ML and AI in general - whether a presence of such tool in the market will have any dramatic impact on the market itself. All in all, the project resulted in some little success. The author suggests that for high frequencies of data it is better to use a classification approach as the price fluctuations within small periods are very minimal. 
+
+##### A quantitative trading method using deep convolution neural network
+
+The Deep convolution neural network has been a great success in field of image processing,but rarely applied in market portfolios. Theh paper oveviews the potential application of such networks into analyzing time series stock data and making predictions based on that. Some of suggestions from this paper were used to choose the models. 
 
 # Introduction
 
@@ -84,6 +96,58 @@ We would like to biuld a tool for making a predictions from the candle plot, whe
 ![goalplot11](images/area_selection.png)
 
 
+    
+# Financial & Trading Background 
+
+As you have guessed so far the project is mainly focused on financial domain. We think it would be a good idea to provide you with some guidance into the complicated world of trading and finance in order to give a better overview and justification of some of our choices. 
+
+## Volatility 
+
+Simply speaking volatility is [*a measurement of price change*](https://www.wallstreetmojo.com/volatility-formula/) of a certain asset or stock. Volatility is also associated with the risk of a certain asset.  
+
+To put it into context: 
+
+*  High volatility - suggests that the asset is subject to sharp price fluctuations. Consequently that would  mean that investing into such an asset will be associated with higher risks as there can be a negative spike in the price. On the other side such an asset is attractive to investors/traders as a positive spike may result in a large profit. 
+* Low volatility - suggests that the asset is subject to very little or almost no price fluctuations. Investment into such assets is associated with lower risks. Usually low volatility is relevant for well-established or old markets.
+
+At this point you probably would ask yourself whether CSPC and SP500 indexes are highly volatile? 
+
+The answer is - mostly, or event better -  relatively no. 
+
+Why this is important? Well, lowly volatile assets are usually part of a well-established market which is not subject to dramatic changes. This is good from data perspective, as the models are usually better predicting  such kind of data rather the one which is subject to constant strong fluctuations. So data-wise the choice was clear. 
+
+In the light of recent events, you probably may ask yourself two questions:
+
+* Why not BTC/ETH or any cryptocurrency?
+* What would happen if the situation like with GameStop or Silver occurs? 
+
+##### Why not crypto?
+
+All cryptocurrencies are the part of developing market which is subject to constant dramatic changes (look at BTC & ETH price fluctuations). This would give us a hard time training our models. Additionally, from statistical point of view all cryptocurrencies are highly volatile.
+
+![BTC's volatility](images/BTC_volatility_daily.jpeg)
+
+While the plot above clearly represents BTC's high volatility. There is also another aspect which makes analyzing and predicting prices of crypto a bit hard - we do not know what exactly influences the prices. When we speak about company's stock (like Apple - AAPL or Goggle - GOOG stocks) you can rely on the company's revenues and financial reports/audits to make certain assumptions about the future price change and historical factors which influenced the change. The situation with crypto is not so obvious. There is a very sophisitcated analysis done to find the influencing factors (incl. buy and sell orders). A nice example of such an analysis - [Crypto Fear & Greed Index - Bitcoin Sentiment, Emotion Analysis](https://alternative.me/crypto/fear-and-greed-index/)
+
+##### What if situation like with GameStop happens?
+
+![GameStop_Prices_Raising](images/gamestop-stock-rise.jpg)
+
+If the sitaution like that happens, probably our model and most exisitng models there won't be able to forsee that. Since such a behaviour is caused by factors which were not introduced before, the models won't be prepared for that. Probably considering the number of so called buy/sell orders could help to predict that but there is also the small delay between the number of buy orders increasing (as it was with GameStop) and price increasing as well. 
+
+
+## Bear vs Bull 
+
+Or also Bear vs Bullish market - what that actually means and why is that important? 
+
+![Bear_Market_VS_Bull_Market](images/Bear_vs_Bull_Cartoon.jpg)
+
+Simply bull market is an optimistic market which faces a positive trand in the assets' prices and bear market is the market facing a decrease in prices due to depressive enviroment or to the fact that the investors do not believe in the market. 
+
+![Bear_Market_VS_Bull_Market_Projected_Onto_stock_Prices](images/Bear-Bull_Illusttrated.png)
+
+On the plot above you can see that one stock can face "bull" and "bear" periods. It is important to know whether the asset is a part of bullish or bear market in general (histoical view). The first one will let us know that despite all price fluctuations there is positive trend in price (and positive sharp spike called **bullrun** may occur). The opposite applies if an  asset is mostly a part of bear market. 
+
 
 # Tasks to reach our goal
 
@@ -92,17 +156,17 @@ GOAL: It is a well spread to suffer. Get used to it!
 0. Read "Useful resources"  | NOT DONE
 1. Collect Data: (Everybody) (yahoo.finance) | DONE
 2. Conduct an initial analysis. | DONE
-2. Train A CNN to extract data from a picture of a candle.
+3. Train A CNN to extract data from a picture of a candle.
     1. Draw Candle plots for a fixed range (maybe a month) and save them as jpeg/png. | DONE 
     2. Slice those candle plots into a single candle plot. | DONE 
     3. Create labels out of those candle pictures. | DONE
-    4. Create CNN regression model for a candle. | in process
-3. Apply Classic Approaches for Time series data:
+    4. Create CNN regression model for a candle. | DONE
+4. Apply Classic Approaches for Time series data:
     1. The autoregressive model AR(p). | DONE
     2. The moving average MA(q) Model. | DONE
     3. The ARMA(p,q) Model. | DONE
     4. Maybe show partial autocorrelation function. | DONE
-4. Apply a NN:
+5. Apply a NN:
     1. Apply a time delay neural networks TDNN.
     2. Apply a simple recurrent neural network RNN.
     3. Apply a LSTM.
@@ -163,7 +227,9 @@ Other part of our data preparation process we have created an images of the cand
 These images of the candles were used as an input for CNN. More on the CNN methods later in the report.
 
 
+>>>>>>> master
 
+The data we are using is inclined towards a bullish market. 
 
 # Initial Analysis 
 
