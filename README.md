@@ -127,7 +127,7 @@ While the plot above clearly represents BTC's high volatility. There is also ano
 
 ![GameStop_Prices_Raising](images/gamestop-stock-rise.jpg)
 
-If the sitaution like that happens, probably our model and most exisitng models there won't be able to forsee that. Since such a behaviour is caused by factors which were not introduced before, the models won't be prepared for that. Probably considering the number so called buy/sell orders could help to predict that bu there is also the small delay between the number of buy orders increasing (as it was with GameStop) and price increasing as well. 
+If the sitaution like that happens, probably our model and most exisitng models there won't be able to forsee that. Since such a behaviour is caused by factors which were not introduced before, the models won't be prepared for that. Probably considering the number of so called buy/sell orders could help to predict that but there is also the small delay between the number of buy orders increasing (as it was with GameStop) and price increasing as well. 
 
 
 ## Bear vs Bull 
