@@ -120,6 +120,7 @@ All cryptocurrencies are the part of developing market which is subject to const
 
 ![BTC's volatility](images/BTC_volatility_daily.jpeg)
 
+While the plot above clearly represents BTC's high volatility. There is also another aspect which makes analyzing and predicting prices of crypto a bit hard - we do not know what exactly influences the
 
 
 ## Bear vs Bull 
