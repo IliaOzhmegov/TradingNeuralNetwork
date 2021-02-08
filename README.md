@@ -102,6 +102,16 @@ GOAL: It is a well spread to suffer. Get used to it!
 
 
 
+# Data 
+
+
+
+We have used  S&P500 index historical data for our research. We have collected the raw data from https://finance.yahoo.com/.  This is what S&P500 index looks like on the website.
+
+
+
+![yahoo](images/yahoo.png)
+
 
 
 **Why S&P 500?**
@@ -112,7 +122,17 @@ It is one of the most commonly followed equity indices. The reason why is it so 
 
 It is also well established trading index with relatively non-volitile performance. The average annual total return and compound annual growth rate of the index, including dividends, since inception in 1926 has been approximately 9.8%, or 6% after inflation; however, there were several years where the index declined over 30%. The index has posted annual increases 70% of the time. However, the index has only made new highs on 5% of trading days, meaning that on 95% of trading days, the index has closed below its all-time high.
 
-For these reasons, we have decided to focus our research on S&P500 index instead of Bitcoin, which is relatively new actor on the market with very high volaitlity.
+Initially we intended to use Bitcoin data for our research. But for reasons above, we have decided to focus our research on S&P500 index instead of Bitcoin, which is relatively new actor on the market with very high volaitlity.
+
+
+
+**Data Description.**
+
+The original data is located in the "^GSPC" csv file. Name "^GSPC" is the listed symbol of the S&P500 on the NYSE, Cboe BZX Exchange, NASDAQ exchanges. Data consists of 163,638 observations and 7 variables, including: Date, Open, High, Low, Close, Adjusted Close prices and volume. Here is the sample.
+
+![yahoo](images/gspc.png)
+
+
 
 
 
