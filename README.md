@@ -38,23 +38,34 @@ goal of using them to buy and sell shares of stock in order to make a profit.
 * [Kaggle: Predicting Stock Buy/Sell signal using CNN](https://www.kaggle.com/darkknight91/predicting-stock-buy-sell-signal-using-cnn/#data)
 * [yahoo finance](https://finance.yahoo.com/quote/BTCUSD%3DX/history?p=BTCUSD%3DX)
 
-# Intro
+# Introduction
 
-We want to build a DNN that can predict the following trend by candle plot.
+Stock Market is very inpredictibale and throughout it's history there have been many attempts to try to predict it's movement.
+
+There are many useful computational intelligence techniques for financial trading systems, including traditional Time Series analysis as well as newer more advanced methods such as Neural Networks. In our research we will look into both: the classic Time Series analysis, such as Moving Average, Autoregressive and ARMA models, as well as Neural Nets, such as Time Delay NN, RNN, LSTM and CNN.
+
+CNN for trading or for predicting the stock market price movement, is a very new and recent approach that is still being researched and developed. So our attempt to try to build the CNN for trading predictions is purely for research and educational purposes.
+
+For our reaseach we decided to use S&P500 index historical data.
+
+Many traders predict the market movement by analizing so salled candle plots. We want to build a DNN that can predicts the following trend by candle plot image. 
+
+
 
 ![candleplot](images/candleplot.png)
 
-Every candle represents a certain time interval 1 day, 1 hour or 1 minute. Now 
-let me briefly explain to you what does mean every bar that usually 
-called a "candle".
+
+
+**How does candle plot work?**
+
+Every candle represents a certain time interval 1 day, 1 hour or 1 minute. Now  let us briefly explain to you what does mean every bar that usually is called a "candle" (because it resebles the candle).
 
 ![bar_explanation](images/bar_explanation.jpeg)
 
-Weeeell, we have red and blue or usually green candles on the picture. And upper
-and lower tails shows us the highest and lowest prices respectively. Whereas, 
-upper and downer sides of the bar show us opening price and closing not respectively.
-If the bar is blue or green it means the opening price is lower than closing. 
-If the bar is red vice versa.
+
+
+We have red and blue or usually green candles as on the picture. Red color traditionaly represents a downward movement, e.i. if the openning price was higher that a close price.  Naturally green color (or blue) of the candle means that the price went up and that our close price is higher that the open price. And upper and lower tails shows us the highest and lowest prices respectively. Whereas,  upper and downer sides of the bar show us opening price and closing not respectively.
+
 
 # Our main goal
 
@@ -87,8 +98,23 @@ GOAL: It is a well spread to suffer. Get used to it!
     1. Apply a time delay neural networks TDNN.
     2. Apply a simple recurrent neural network RNN.
     3. Apply a LSTM.
-5. Compare result.
-   
+6. Compare results.
+
+
+
+
+
+**Why S&P 500?**
+
+S&P500 is a stock market index that measures the stock performance of 500 large companies listed on stock exchanges in the United States. For example, the 10 largest companies in the index, in order of weighting, are Apple Inc., Microsoft, Amazon.com, Facebook, Tesla, Inc., Alphabet Inc., Berkshire Hathaway, Johnson & Johnson, and JPMorgan Chase & Co., respectively.
+
+It is one of the most commonly followed equity indices. The reason why is it so popular is because it reflects the overall state of the economy really well. 
+
+It is also well established trading index with relatively non-volitile performance. The average annual total return and compound annual growth rate of the index, including dividends, since inception in 1926 has been approximately 9.8%, or 6% after inflation; however, there were several years where the index declined over 30%. The index has posted annual increases 70% of the time. However, the index has only made new highs on 5% of trading days, meaning that on 95% of trading days, the index has closed below its all-time high.
+
+For these reasons, we have decided to focus our research on S&P500 index instead of Bitcoin, which is relatively new actor on the market with very high volaitlity.
+
+
 
 
 # Initial Analysis 
@@ -221,5 +247,5 @@ Again, as with AR model, ARMA model is highly overfitted and gives very poor pre
 
 **Conclusion**
 
-Classic Statistical approaches to Time Series data are really good to analize the structure of the data. But they are generally  give poor prediction results, especially the case of non-stationary data. Even after we try to induce the stationarity to the data - the models still don't perform well. One of the possible applications of these methods are for short time windows. Classic statistical methods might be more suitable for short term spans.
+Classic Statistical approaches to Time Series data are really good to analize the structure of the data. But they generally  give poor prediction results, especially the case of non-stationary data. Even after we try to induce the stationarity to the data - the models still don't perform well. One of the possible applications of these methods are for short time windows. Classic statistical methods might be more suitable for short term spans.
 
