@@ -140,7 +140,9 @@ Simply bull market is an optimistic market which faces a positive trand in the a
 
 ![Bear_Market_VS_Bull_Market_Projected_Onto_stock_Prices](images/Bear-Bull_Illusttrated.png)
 
+On the plot above you can see that one stock can face "bull" and "bear" periods. It is important to know whether the asset is a part of bullish or bear market in general (histoical view). The first one will let us know that despite all price fluctuations there is positive trend in price (and positive sharp spike called **bullrun** may occur). The opposite applies if an  asset is mostly a aprt of bear market. 
 
+The data we are using is inclined towards a bullish market. 
 
 # Initial Analysis 
 
