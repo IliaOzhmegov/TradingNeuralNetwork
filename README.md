@@ -220,7 +220,7 @@ The time span of our data is from December 30, 1927 to January 22, 2021 - almost
 
 We have created a shortened version of the raw data - the *"SP500"* csv file. Since more reliable data is from aproximatelly 1962, we have discarted the data before January 2, 1962. 
 
-Next, as part of the data preparation, we have create the sequences of these data. They were created by building a custom sequence distributor (see *sequence_distributor.py*) to slice data into the small windows of 30 days each, which will be used as predictors, and the slices with the span of 5 days - the target values that need to be predicted. The predictor and target data were scaled separetelly using different approaches. For  example, the 30-day predictor sequences were scaled by taking the minimum and maximus values: 4.5% and 95.5% respectively. So overall we have created 14,832 sequences. These sequences were used as an inputs for our Time Series Neural Networks: TDNN, LSTM, RNN.
+Next, as part of the data preparation, we have create the sequences of these data. They were created by building a custom sequence distributor (see *sequence_distributor.py*) to slice data into the small windows of 30 days each, which will be used as predictors, and the slices with the span of 5 days - the target values that need to be predicted. The predictor and target data were scaled separetelly using different approaches. For example, the 30-day predictor sequences were scaled by taking the **minimum** and **maximum** values as 0.04(45) and 0.95(45) respectively. The choice of such values can be explained by scale factor of plot function So overall we have created 14,832 sequences. These sequences were used as an inputs for our Time Series Neural Networks: TDNN, LSTM, RNN.
 
 
 
@@ -244,7 +244,7 @@ For analyzing the raw visual data,  we had to create a certain pipeline to put i
 
 Other part of our data preparation process we have created an images of the candles (see *candle_builder.py*). This was a tedious process, where we had to create candle plots and "cut-out" each candle separately. We did so by drawing the 30-day slices of the data, then slicing each of them into individual plots. These individual plots contain a sindle candle with preserved spatial properties (including the center). The size of each candle box is 34 (width) x 200 (hight) pixels. 
 
-For model robustness, we have introduced a parameter *lambda λ* that controls the transparency of the candle color. In addition, we have added some background noise. Here are the samples of these candles.
+For model robustness, we have introduced a parameter *lambda λ* that controls the transparency of the candle color, but also width of the each plots and slight swing to left and right.  In addition, we have added some background noise. Here are the samples of these candles.
 
 
 
@@ -252,7 +252,7 @@ For model robustness, we have introduced a parameter *lambda λ* that controls t
 
 
 
-The names of the images of the individual candles are not random. They folow a pre-defined convention where first number of the image name means it belongs to the according sequence file, and the second number means the corresponding row number of that particular sequence. For example, if we are looking at the candle with name "7_1.png", it means that it belongs to the 7th sequence, 1st row in that 7th sequence.
+The names of the images of the individual candles are not random. They folow a pre-defined convention where first number of the image name means it belongs to the according sequence file, and the second number means the corresponding row number of that particular sequence. For example, if we are looking at the candle with name "7_1.png", it means that it belongs to the 7th sequence, 2nd row in that sequence file.
 
 These images of the candles were used as an input for CNN. More on the CNN methods later in the report.
 
@@ -260,9 +260,7 @@ These images of the candles were used as an input for CNN. More on the CNN metho
 
 **Selector.**
 
-Our initial idea was to create a *selector* that would do a sophisticated slicing of the candle plots, however due to time constrains it is not ready. So the way it would work - it would take a part of the image with size 1150 x 210 pixels, and similarly to the *candle_builder*, would cut-off the slices of the image with candles with step size of 3 pixels in between the cuts. 
-
-it would also calculate the gradient on x-axis that corresponds to and shows some edges of the candle. It would determine the center of the image and would add 17 pixels on each side of the of the slice. It would result in some brighter clusters and combine them together.
+However, further we are planning to change the naive approach above to a more robust one, which will calculate the x of "the center of mass" of every candle and then slice 17 pixels margin in both directions from the center. The center of mass can be calculated with OpenCV library.
 
 Then our selector would pass on this new data (individual images of the candles) to the interpretator.
 
@@ -441,9 +439,27 @@ This was very interesting and complex project - we looked at the task from the v
 
 The idea of this project is to build a Convolutional Neural Network that would predict the S&P500 index market movement and price. In addition to this, we have disided to compare other Time Series approaches, including classic Time Series models as well as more contemporary and recent methods such as Time Delay Neural Net, Reccurent NN, and Long Short-Term Memory NN.
 
+Overall our project can be generalized into the following acomplished tasks:
+
+- Financial background.
+- Data collection.
+- Data Processing, including creation of the candle plot and slicing them into individual single candle plots.
+- Applying the classic approaches to the tme series data.
+- Developing **simple** and **complex** versions of the TDNN, RNN, LSTM and CNN.
+- Deriving the results.
+
 The traditional Time Series approaches, such as Moving Average, Autoregressive and ARMA methods, resulted in low performance with poor predictions.
 
-Time Series Neural Networks proved to be a lot more effective and much better in making predictions. RNN and LSTM had almost similar performances. To our big surprise - our TDNN model had the best performance and bit other Neural Nets, giving the lowest Mean Absolute Error.
+Time Series Neural Networks proved to be a lot more effective and much better in making predictions. 
 
-Our CNN model had the lowest performance among the Neural Net models, however it had still bit our expectations as we were not sure if this type of model would be able to make predictions on the stock market data. And to our pleasant surprise CNN model was able to make some accurate predictions even though not as accurate as Time Series Neural Nets.
+We have developed two versions of each our our Neural Network: 
+
+- the **simple** models that predict only one variable with outcome value at t+1.
+- and **complex** models that make simultaneous multivariate multistep up to t+5 predictions.
+
+Among the **simple** models, RNN and LSTM had almost similar performances. To our big surprise - our TDNN model had the best performance and beat other Neural Nets, giving the lowest Mean Absolute Error.
+
+For **complex** models, RNN ended up being the best model with lowest Mean Absolute Error. TDNN model was second best - not too far off the RNN performance. And LSTM didn't perform as good with this task.
+
+Our CNN model had the lowest performance among the Neural Net models, however it still has beat our expectations as we were not sure if this type of model would be able to make predictions on the stock market data. And to our pleasant surprise CNN model was able to make some accurate predictions even though not as accurate as Time Series Neural Nets.
 
