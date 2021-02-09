@@ -3,21 +3,21 @@
 Folders and their meaning:
 
 * Folder `analysis` contains your python or jupyter notebook where put analysis 
-for a certain topic. Do not forget to put your name at the beginning.
+  for a certain topic. Do not forget to put your name at the beginning.
 * Folder `data` contains text data for training a model or for an analysis.
 * Folder `images` contains images for a report.
 * Folder `libs` contains framework that you would need more than once and you
-would like to make it into a nice wrapper (e.g. a window scaler).
+  would like to make it into a nice wrapper (e.g. a window scaler).
 * Folder `papers` contains articles that you found useful and decided to save 
-as access via a link is not possible.
+  as access via a link is not possible.
 * Folder `plots` contains your plots after analysis.
 * Folder `scripts` contains ETL or certain movements for a data transformation.
 
 Common rules:
 
 * DO NOT PUSH your changes directly into MASTER branch: work in your local 
-branch, then push your local branch, request a pull-request and after that 
-let the gatekeeper (Ilia) know that you want to do a merge.
+  branch, then push your local branch, request a pull-request and after that 
+  let the gatekeeper (Ilia) know that you want to do a merge.
 * Put your name(s) at the beginning of the python jupyter file(s).
 * If you are not sure, ask. It is faster to prevent an issue than to solve it.
 
@@ -96,7 +96,8 @@ We would like to biuld a tool for making a predictions from the candle plot, whe
 ![goalplot11](images/area_selection.png)
 
 
-    
+​    
+
 # Financial & Trading Background 
 
 As you have guessed so far the project is mainly focused on financial domain. We think it would be a good idea to provide you with some guidance into the complicated world of trading and finance in order to give a better overview and justification of some of our choices. 
@@ -108,7 +109,7 @@ Simply speaking volatility is [*a measurement of price change*](https://www.wall
 To put it into context: 
 
 *  High volatility - suggests that the asset is subject to sharp price fluctuations. Consequently that would  mean that investing into such an asset will be associated with higher risks as there can be a negative spike in the price. On the other side such an asset is attractive to investors/traders as a positive spike may result in a large profit. 
-* Low volatility - suggests that the asset is subject to very little or almost no price fluctuations. Investment into such assets is associated with lower risks. Usually low volatility is relevant for well-established or old markets.
+*  Low volatility - suggests that the asset is subject to very little or almost no price fluctuations. Investment into such assets is associated with lower risks. Usually low volatility is relevant for well-established or old markets.
 
 At this point you probably would ask yourself whether CSPC and SP500 indexes are highly volatile? 
 
@@ -157,19 +158,20 @@ GOAL: It is a well spread to suffer. Get used to it!
 1. Collect Data: (Everybody) (yahoo.finance) | DONE
 2. Conduct an initial analysis. | DONE
 3. Train A CNN to extract data from a picture of a candle.
-    1. Draw Candle plots for a fixed range (maybe a month) and save them as jpeg/png. | DONE 
-    2. Slice those candle plots into a single candle plot. | DONE 
-    3. Create labels out of those candle pictures. | DONE
-    4. Create CNN regression model for a candle. | DONE
+   1. Draw Candle plots for a fixed range (maybe a month) and save them as jpeg/png. | DONE 
+   2. Slice those candle plots into a single candle plot. | DONE 
+   3. Create labels out of those candle pictures. | DONE
+   4. Create CNN regression model for a candle. | DONE
 4. Apply Classic Approaches for Time series data:
-    1. The autoregressive model AR(p). | DONE
-    2. The moving average MA(q) Model. | DONE
-    3. The ARMA(p,q) Model. | DONE
-    4. Maybe show partial autocorrelation function. | DONE
+   1. The autoregressive model AR(p). | DONE
+   2. The moving average MA(q) Model. | DONE
+   3. The ARMA(p,q) Model. | DONE
+   4. Maybe show partial autocorrelation function. | DONE
 5. Apply a NN:
-    1. Apply a time delay neural networks TDNN.
-    2. Apply a simple recurrent neural network RNN.
-    3. Apply a LSTM.
+   1. Apply a time delay neural networks TDNN. | DONE
+   2. Apply a simple recurrent neural network RNN. | DONE
+   3. Apply a LSTM. | DONE
+   4. Apply a CNN | DONE
 6. Compare results.
 
 
@@ -212,11 +214,23 @@ Also, there is a shortened version of the raw data - the "SP500" csv file. Since
 
 In addition, as part of the data preparation, we have create the sequences of the data. They were created by building a custom sequence distributor (see sequence_distributor.py) to slice data into the small windows of 30 days each, which will be used as predictors, and the slices with the span of 5 days - the target values that need to be predicted. The predictor and target data were scaled separetelly using different approaches. So overall we have created 14,832 sequences. These sequences were used as an inputs for our Time Series Neural Networks: TDNN, LSTM, RNN.
 
+**Pipeline** 
 
+Speaking of analyzing the raw visual data,  we had to create a certain pipeline to put it into the proper format and then make forecasts based on that. First of all, simply inputting the whole sequence of candle plots and asking the models to make a forecast -(continue the picture) is not the best approach for our specific task. We need to detach the individual candles in the first place, remove the background noise (for instance the grid) and so on. The illustration below demonstrates how we do it. 
+
+![Pipeline](images/pipeline_ps.png)
+
+
+
+1. We take the  images with candle plots and then pass them trough our **selector**. The purpose of the **selector** is to find and detach each individual candle into separate images. 
+2. As an output we get separated candles. 
+3. Afterwards, we pass each individual candle trough **interpreter**. The purpose of interpreter is to convert  individual candles into more convenient numeric representation which we have already mentioned. 
+4.  Afterwards we get the **HLOC** (High, Low, Open, and Close) values of our candles. The variable **__t__** represents the sequence of the candle. In other words the order. The index **__k__** - is the total number of candles at the input. It is very important to keep the sequence of the candles although we separate them as each next candle is dependent on previous one. 
+5. As we get our data converted into convenient **HLOC** format we start the forecasting process using our ANN models by inputting those sequences into them. As an output we get the **HLOC** and **t<sub>k+1</sub>** values of the predicted candles. These predicted and input values together can be used by our candle plot generator to obtain the whole candle plot with forecasted candles. 
 
 **Candles.**
 
-Other part of our data preparation process we have created an images of the candles. This was a tedious process, where we had to create candle plots and "cut-out" each vandle separately. In addition, we have added a backgroud noise. Here are the samples of these candles.
+Other part of our data preparation process we have created an images of the candles. This was a tedious process, where we had to create candle plots and "cut-out" each candle separately. In addition, we have added a background noise. Here are the samples of these candles.
 
 
 
@@ -362,4 +376,3 @@ Again, as with AR model, ARMA model is highly overfitted and gives very poor pre
 **Conclusion**
 
 Classic Statistical approaches to Time Series data are really good to analize the structure of the data. But they generally  give poor prediction results, especially the case of non-stationary data. Even after we try to induce the stationarity to the data - the models still don't perform well. One of the possible applications of these methods are for short time windows. Classic statistical methods might be more suitable for short term spans.
-
