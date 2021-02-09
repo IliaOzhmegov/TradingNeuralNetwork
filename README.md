@@ -376,3 +376,25 @@ Again, as with AR model, ARMA model is highly overfitted and gives very poor pre
 **Conclusion**
 
 Classic Statistical approaches to Time Series data are really good to analize the structure of the data. But they generally  give poor prediction results, especially the case of non-stationary data. Even after we try to induce the stationarity to the data - the models still don't perform well. One of the possible applications of these methods are for short time windows. Classic statistical methods might be more suitable for short term spans.
+
+# Non-classical approaches - ANN 
+
+**Introduction** 
+
+As mentioned above classical methods are good when it comes to analyzing stationary timeseries data. However the data we use as mostly any stock exchange data is non-stationary. This makes Neural Network particular attractive for us as there is no proof that they are bad at working with non-stationary data. Our idea was to use four different ANNs architectures and find the one that performs the best. 
+
+**Model Choice** 
+
+We have decided to go with for NN architectures: 
+
+* RNNs - Recurrent Neural Networks 
+  * That was an obvious choice as **RNNs** can be used to model sequence of data (i.e. time series) so that each sample can be assumed  to be dependent on previous ones.
+  * It can be also easily integrated with other layers like CNNs to extend the effective pixel neighborhood. 
+* TDNNs - Time-Delay Neural Networks 
+  * The strength of the **TDNN** comes from its ability to examine objects shifted in **time** forward and backward to define an object detectable as the **time** is altered.  If an object can be recognized in this manner, an application can plan on that object to be found in the future and perform an optimal action.
+* LSTMs - Long Short Term Memory NNs
+  * The memory property of such networks helps them to keep the time related dependencies of sequence data. 
+  *  (**LSTM** is able to solve many **time series** tasks unsolvable by feed-forward networks using fixed size **time** windows.
+* CNN  - Convolutional Neural Networks
+  * One of the advantages of **CNNs**  is that it automatically detects the important features, requires fewer hyperparameters, and less human supervision.
+  * Generally, performance-wise (computational time) **CNNs** considered to be a bit faster than **RNNs**. 
