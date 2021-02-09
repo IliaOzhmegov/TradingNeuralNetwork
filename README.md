@@ -420,7 +420,9 @@ We have decided to use two approaches:
 
 **Simple Models Results**
 
-The first thing we notice immediately for all models is that the models' training stagnate quite quickly. In other words there is no significant improvement after a couple or more epochs. The `EarlyStopping`  stops the model training after the stagnation occurs - usually at the 10th epochs. 
+The first thing we notice immediately for all models is that the models' training stagnate quite quickly. In other words there is no significant improvement after a couple or more epochs. The `EarlyStopping`  stops the model training after the stagnation occurs - usually at the 10th epochs. Here we are trying to predict the next day. 
+
+![Tiny Window](plots/modelling/simiple_models/tiny_narrow_window.png)
 
 **Simple RNN**
 
@@ -476,7 +478,7 @@ candlesss
 
 The idea of complex models was to use and predict all available variables. The models were also changed a bit for that purpose. Additional layers were introduced. Immediately we can notice that our models converged quick quickly - usually at the first 5 epochs. One more difference compared to simple models is that we try to predict five days instead of one
 
-![]
+![Standard Window](plots/modelling/complex_models/standard_window.png)
 
 **Complex RNN**
 
@@ -514,7 +516,7 @@ Sometimes the model provides a spot on prediction if we look at the third plot. 
 
 Here the CNN has not surprised us with a great performance. However, that could be expected as we are not analyzing the images to be precise, so probably that is why simpler models like RNN provide a better performance. As al the models before the model converges quick quickly. It doesn't become better with more iterations. 
 
-![Complex CNN Prediction](plots/modelling/complex_models/CNN_close_prediction.png) 
+![Complex CNN Prediction](plots/modelling/complex_models/prediction/CNN_close_prediction.png) 
 
 It seems like Complex CNN provides spot on results when it comes to predicting a straight trend. When the trend is slightly curved the model provides quite bad results. In other words the model is not quite good at predicting the shifts but still manages to some extent predict the trends. 
 
