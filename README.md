@@ -154,7 +154,7 @@ On the plot above you can see that one stock can face "bull" and "bear" periods.
 
 GOAL: It is a well spread to suffer. Get used to it!
 
-0. Read "Useful resources"  | NOT DONE
+0. Read "Useful resources"  | DONE
 1. Collect Data: (Everybody) (yahoo.finance) | DONE
 2. Conduct an initial analysis. | DONE
 3. Train A CNN to extract data from a picture of a candle.
@@ -204,7 +204,7 @@ Initially we intended to use Bitcoin data for our research. But for reasons abov
 
 
 
-Data preparation has been a significan part of our project as we deal with images of the financial time series data - it required a lot of preprocessing for various tasks. The complete pipeline is described below in this chapter.
+Data preparation has been a significant part of our project as we deal with images of the financial time series data - it required a lot of preprocessing for various tasks. The complete pipeline is described below in this chapter.
 
 The original data is located in the *"^GSPC*" csv file. Name "^GSPC" is the listed symbol of the S&P500 on the NYSE, Cboe BZX Exchange, NASDAQ exchanges. Data consists of 163,638 observations and 7 variables, including: Date, Open, High, Low, Close, Adjusted Close prices and volume. Here is the sample.
 
@@ -285,9 +285,7 @@ We have created a so called train "interpretator" (see *"train_interpretator.py"
 
 
 
->>>>>>> master
->>>>>>>
->>>>>>> 
+
 
 # Initial Analysis 
 
@@ -422,4 +420,30 @@ Again, as with AR model, ARMA model is highly overfitted and gives very poor pre
 Classic Statistical approaches to Time Series data are really good to analize the structure of the data. But they generally  give poor prediction results, especially the case of non-stationary data. Even after we try to induce the stationarity to the data - the models still don't perform well. One of the possible applications of these methods are for short time windows. Classic statistical methods might be more suitable for short term spans.
 
 
+
+# CNN models 
+
+
+
+
+
+# Neural Networks for Time Series: TDNN, RNN, LSTM 
+
+
+
+
+
+# Conclusion 
+
+
+
+This was very interesting and complex project - we looked at the task from the various angels and applied many different models. Hovewer the project ended up being of a larger scale than we originally presumed. But this is exactly what have made this project even more interesting and we intent to continue working on it after the end of the Lerning from Images Course.
+
+The idea of this project is to build a Convolutional Neural Network that would predict the S&P500 index market movement and price. In addition to this, we have disided to compare other Time Series approaches, including classic Time Series models as well as more contemporary and recent methods such as Time Delay Neural Net, Reccurent NN, and Long Short-Term Memory NN.
+
+The traditional Time Series approaches, such as Moving Average, Autoregressive and ARMA methods, resulted in low performance with poor predictions.
+
+Time Series Neural Networks proved to be a lot more effective and much better in making predictions. RNN and LSTM had almost similar performances. To our big surprise - our TDNN model had the best performance and bit other Neural Nets, giving the lowest Mean Absolute Error.
+
+Our CNN model had the lowest performance among the Neural Net models, however it had still bit our expectations as we were not sure if this type of model would be able to make predictions on the stock market data. And to our pleasant surprise CNN model was able to make some accurate predictions even though not as accurate as Time Series Neural Nets.
 
