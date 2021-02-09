@@ -398,3 +398,74 @@ We have decided to go with for NN architectures:
 * CNN  - Convolutional Neural Networks
   * One of the advantages of **CNNs**  is that it automatically detects the important features, requires fewer hyperparameters, and less human supervision.
   * Generally, performance-wise (computational time) **CNNs** considered to be a bit faster than **RNNs**. 
+
+**Model Settings** 
+
+**Data Split** 
+
+The data was split in the following way : 
+
+* 70% of the whole dataset for the **training** set.
+* 90% of the whole dataset for the **validation** set. 
+* The rest 10% for the **testing** set.
+
+It should be mentioned that the periods between 70% and 90% are the bearish periods, meaning the market prices had stagnated and started to decrease. As mentioned above for any model it is quite hard to predict **"bull"** or **"bear"** runs, thus it adds additional challenge for our model. The testing set catches the period of **"bull"** run which also introduces additional sophistications for our models. A `WindowGenerator` was created to define the shift and the number of variables which will be used for the training, validation, and testing. 
+
+**Results** 
+
+We have decided to use two approaches:
+
+* Simple - where we try to predict one variable  - **_"Close"_** 
+* Complex - where we try to predict the whole sequence. 
+
+**Simple Models Results**
+
+The first thing we notice immediately for all models is that the models' training stagnate quite quickly. In other words there is no significant improvement after a couple or more epochs. The `EarlyStopping`  stops the model training after the stagnation occurs - usually at the 10th epochs. 
+
+**Simple RNN**
+
+![RNN History](plots/modelling/simple_models/RNN_history.png)
+
+The simple RNN has showed quite a great results with an MSE equal to 0.06. As mentioned above the stagnation in training occurred quite early - at the 2<sup>nd</sup> epoch.
+
+Illustrated below  we can see that the model has quite correctly predicted the stock price. At the first graph the match is very precise. 
+
+![RNN Prediction](plots/modelling/simple_models/prediction/RNN_prediction)
+
+**Simple TDNN** 
+
+![TDNN History](plots/modelling/simple_models/TDNN_history.png)
+
+The simple TDNN has showed worse results than RNN with the best MSE equal 0.014. For training set the stagnation as opposed to RNN occurred relatively late at around 14<sup>th</sup> epoch. Contrary to RNN the MSE for validation set differentiates from the training set. There is less improvement with additional epochs.
+
+![TDNN Prediction](plots/modelling/simple_models/TDNN_prediction.png)
+
+Here we can see again that despite being not completely precise, the match is still quite good enough with a mismatch of maximum 0.1 on a normalized prices.
+
+**Simple LSTM** 
+
+![LSTM History](plots/modelling/simple_models/LSTM_history.png)
+
+As in RNN the stagnation in training occurs almost immediately, meaning there is no significant improvement in the performance after the  2<sup>nd</sup> epoch. The MSE curvatures both for training and validation correlate with each other. 
+
+![Prediction](plots/modelling/simple_models/LSTM_prediction.png)
+
+Prediction-wise we can see that the model provides noticeably good results. 
+
+Simple CNN 
+
+![CNN History](plots/modelling/simple_models/CNN_history.png)
+
+We were quite excited about applying the CNN onto our data as usually it is rarely applied to analyze such kind of data - rather for image analysis. At the end of the day images are also a set of numbers, so we expected some nice results from CNN as well. From the plot above we can clearly see that results  are  good - it can predict the tendency correctly, - but not the best actually opposite. Again the same tendency occurs and model quickly reaches saturation in the training process after the 3<sup>rd</sup> epoch. 
+
+From the plot below we observe a large distance between the predicted and true price. Compared to previous models the difference is quite noticeable. 
+
+![CNN History](plots/modelling/simple_models/plots/CNN_prediction.png)
+
+**Final overview of simple models**
+
+![Simple Overview](plots/modelling/simple_models/performance)
+
+First of all, there is a little difference performance-wise between the validation and test sets which good considering the significant difference between the two. 
+
+Overall, for simple models the TDNN has showed the best performance. RNNs and LSTMs showed quite similar performance and CNN was the worst. 
