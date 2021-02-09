@@ -168,9 +168,10 @@ GOAL: It is a well spread to suffer. Get used to it!
    3. The ARMA(p,q) Model. | DONE
    4. Maybe show partial autocorrelation function. | DONE
 5. Apply a NN:
-   1. Apply a time delay neural networks TDNN.
-   2. Apply a simple recurrent neural network RNN.
-   3. Apply a LSTM.
+   1. Apply a time delay neural networks TDNN. | DONE
+   2. Apply a simple recurrent neural network RNN. | DONE
+   3. Apply a LSTM. | DONE
+   4. Apply a CNN | DONE
 6. Compare results.
 
 
@@ -224,7 +225,6 @@ Speaking of analyzing the raw visual data,  we had to create a certain pipeline 
 1. We take the  images with candle plots and then pass them trough our **selector**. The purpose of the **selector** is to find and detach each individual candle into separate images. 
 2. As an output we get separated candles. 
 3. Afterwards, we pass each individual candle trough **interpreter**. The purpose of interpreter is to convert  individual candles into more convenient numeric representation which we have already mentioned. 
-   * **HLOC** - refers to High, Low, Open, and Close parameters of the candle. 
 4.  Afterwards we get the **HLOC** (High, Low, Open, and Close) values of our candles. The variable **__t__** represents the sequence of the candle. In other words the order. The index **__k__** - is the total number of candles at the input. It is very important to keep the sequence of the candles although we separate them as each next candle is dependent on previous one. 
 5. As we get our data converted into convenient **HLOC** format we start the forecasting process using our ANN models by inputting those sequences into them. As an output we get the **HLOC** and **t<sub>k+1</sub>** values of the predicted candles. These predicted and input values together can be used by our candle plot generator to obtain the whole candle plot with forecasted candles. 
 
