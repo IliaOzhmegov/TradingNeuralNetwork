@@ -200,9 +200,13 @@ Initially we intended to use Bitcoin data for our research. But for reasons abov
 
 
 
-**Data Description.**
+# Data Description
 
-The original data is located in the "^GSPC" csv file. Name "^GSPC" is the listed symbol of the S&P500 on the NYSE, Cboe BZX Exchange, NASDAQ exchanges. Data consists of 163,638 observations and 7 variables, including: Date, Open, High, Low, Close, Adjusted Close prices and volume. Here is the sample.
+
+
+Data preparation has been a significan part of our project as we deal with images of the financial time series data - it required a lot of preprocessing for various tasks. The complete pipeline is described below in this chapter.
+
+The original data is located in the *"^GSPC*" csv file. Name "^GSPC" is the listed symbol of the S&P500 on the NYSE, Cboe BZX Exchange, NASDAQ exchanges. Data consists of 163,638 observations and 7 variables, including: Date, Open, High, Low, Close, Adjusted Close prices and volume. Here is the sample.
 
 ![yahoo](images/gspc.png)
 
@@ -210,13 +214,19 @@ The original data is located in the "^GSPC" csv file. Name "^GSPC" is the listed
 
 The time span of our data is from December 30, 1927 to January 22, 2021 - almost hundred years of data. 
 
-Also, there is a shortened version of the raw data - the "SP500" csv file. Since more reliable data is from aproximatelly 1962, we have discarted the data before January 2, 1962. More on this in the following chapter "Initial Analysis".
 
-In addition, as part of the data preparation, we have create the sequences of the data. They were created by building a custom sequence distributor (see sequence_distributor.py) to slice data into the small windows of 30 days each, which will be used as predictors, and the slices with the span of 5 days - the target values that need to be predicted. The predictor and target data were scaled separetelly using different approaches. So overall we have created 14,832 sequences. These sequences were used as an inputs for our Time Series Neural Networks: TDNN, LSTM, RNN.
+
+**Sequences**
+
+We have created a shortened version of the raw data - the *"SP500"* csv file. Since more reliable data is from aproximatelly 1962, we have discarted the data before January 2, 1962. 
+
+Next, as part of the data preparation, we have create the sequences of these data. They were created by building a custom sequence distributor (see *sequence_distributor.py*) to slice data into the small windows of 30 days each, which will be used as predictors, and the slices with the span of 5 days - the target values that need to be predicted. The predictor and target data were scaled separetelly using different approaches. For  example, the 30-day predictor sequences were scaled by taking the minimum and maximus values: 4.5% and 95.5% respectively. So overall we have created 14,832 sequences. These sequences were used as an inputs for our Time Series Neural Networks: TDNN, LSTM, RNN.
+
+
 
 **Pipeline** 
 
-Speaking of analyzing the raw visual data,  we had to create a certain pipeline to put it into the proper format and then make forecasts based on that. First of all, simply inputting the whole sequence of candle plots and asking the models to make a forecast -(continue the picture) is not the best approach for our specific task. We need to detach the individual candles in the first place, remove the background noise (for instance the grid) and so on. The illustration below demonstrates how we do it. 
+For analyzing the raw visual data,  we had to create a certain pipeline to put it into the proper format and then make forecasts based on that. First of all, simply inputting the whole sequence of candle plots and asking the models to make a forecast - (continue the picture) is not the best approach for our specific task. We need to detach the individual candles in the first place, remove the background noise (for instance the grid) and so on. The illustration below demonstrates how we do it. 
 
 ![Pipeline](images/pipeline_ps.png)
 
@@ -228,22 +238,56 @@ Speaking of analyzing the raw visual data,  we had to create a certain pipeline 
 4.  Afterwards we get the **HLOC** (High, Low, Open, and Close) values of our candles. The variable **__t__** represents the sequence of the candle. In other words the order. The index **__k__** - is the total number of candles at the input. It is very important to keep the sequence of the candles although we separate them as each next candle is dependent on previous one. 
 5. As we get our data converted into convenient **HLOC** format we start the forecasting process using our ANN models by inputting those sequences into them. As an output we get the **HLOC** and **t<sub>k+1</sub>** values of the predicted candles. These predicted and input values together can be used by our candle plot generator to obtain the whole candle plot with forecasted candles. 
 
+
+
 **Candles.**
 
-Other part of our data preparation process we have created an images of the candles. This was a tedious process, where we had to create candle plots and "cut-out" each candle separately. In addition, we have added a background noise. Here are the samples of these candles.
+Other part of our data preparation process we have created an images of the candles (see *candle_builder.py*). This was a tedious process, where we had to create candle plots and "cut-out" each candle separately. We did so by drawing the 30-day slices of the data, then slicing each of them into individual plots. These individual plots contain a sindle candle with preserved spatial properties (including the center). The size of each candle box is 34 (width) x 200 (hight) pixels. 
+
+For model robustness, we have introduced a parameter *lambda λ* that controls the transparency of the candle color. In addition, we have added some background noise. Here are the samples of these candles.
 
 
 
-<img src="plots/candles/2_0.png" alt="ACF_plot" style="zoom:100%;" />      <img src="plots/candles/3_26.png" alt="ACF_plot" style="zoom:100%;" />       <img src="plots/candles/3_20.png" alt="ACF_plot" style="zoom:100%;" />        <img src="plots/candles/4_2.png" alt="ACF_plot" style="zoom:100%;" />       <img src="plots/candles/232_22.png" alt="ACF_plot" style="zoom:100%;" />
+<img src="plots/candles/2_0.png" alt="ACF_plot" style="zoom:100%;" />      <img src="plots/candles/3_26.png" alt="ACF_plot" style="zoom:100%;" />       <img src="plots/candles/3_20.png" alt="ACF_plot" style="zoom:100%;" />        <img src="plots/candles/0_3.png" alt="ACF_plot" style="zoom:100%;" />       <img src="plots/candles/0_1.png" alt="ACF_plot" style="zoom:100%;" />
 
 
+
+The names of the images of the individual candles are not random. They folow a pre-defined convention where first number of the image name means it belongs to the according sequence file, and the second number means the corresponding row number of that particular sequence. For example, if we are looking at the candle with name "7_1.png", it means that it belongs to the 7th sequence, 1st row in that 7th sequence.
 
 These images of the candles were used as an input for CNN. More on the CNN methods later in the report.
 
 
->>>>>>> master
 
-The data we are using is inclined towards a bullish market. 
+**Selector.**
+
+Our initial idea was to create a *selector* that would do a sophisticated slicing of the candle plots, however due to time constrains it is not ready. So the way it would work - it would take a part of the image with size 1150 x 210 pixels, and similarly to the *candle_builder*, would cut-off the slices of the image with candles with step size of 3 pixels in between the cuts. 
+
+it would also calculate the gradient on x-axis that corresponds to and shows some edges of the candle. It would determine the center of the image and would add 17 pixels on each side of the of the slice. It would result in some brighter clusters and combine them together.
+
+Then our selector would pass on this new data (individual images of the candles) to the interpretator.
+
+
+
+# CNN Regressor 
+
+
+
+**Train Interpretator.**
+
+We have created a so called train "interpretator" (see *"train_interpretator.py"*) that trains CNN regressor model and outputs a price predictions for our **HLOC** values (High, Low, Open, Close). The architecture of this CNN model was inspired by AlexNet. Below is the performance result of our model, which gives quite good predictions.
+
+![train_AR](plots/training_history_of_interpretator.png)
+
+*"check_iterpretator.py"* - checks how our interpretator works. 
+
+
+
+
+
+
+>>>>>>> master
+>>>>>>>
+>>>>>>> 
 
 # Initial Analysis 
 
@@ -376,3 +420,6 @@ Again, as with AR model, ARMA model is highly overfitted and gives very poor pre
 **Conclusion**
 
 Classic Statistical approaches to Time Series data are really good to analize the structure of the data. But they generally  give poor prediction results, especially the case of non-stationary data. Even after we try to induce the stationarity to the data - the models still don't perform well. One of the possible applications of these methods are for short time windows. Classic statistical methods might be more suitable for short term spans.
+
+
+
