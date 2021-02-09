@@ -153,7 +153,7 @@ On the plot above you can see that one stock can face "bull" and "bear" periods.
 
 GOAL: It is a well spread to suffer. Get used to it!
 
-0. Read "Useful resources"  | NOT DONE
+0. Read "Useful resources"  | DONE
 1. Collect Data: (Everybody) (yahoo.finance) | DONE
 2. Conduct an initial analysis. | DONE
 3. Train A CNN to extract data from a picture of a candle.
@@ -167,9 +167,9 @@ GOAL: It is a well spread to suffer. Get used to it!
     3. The ARMA(p,q) Model. | DONE
     4. Maybe show partial autocorrelation function. | DONE
 5. Apply a NN:
-    1. Apply a time delay neural networks TDNN.
-    2. Apply a simple recurrent neural network RNN.
-    3. Apply a LSTM.
+    1. Apply a time delay neural networks TDNN. | DONE
+    2. Apply a simple recurrent neural network RNN. | DONE
+    3. Apply a LSTM. | DONE
 6. Compare results.
 
 
@@ -362,4 +362,22 @@ Again, as with AR model, ARMA model is highly overfitted and gives very poor pre
 **Conclusion**
 
 Classic Statistical approaches to Time Series data are really good to analize the structure of the data. But they generally  give poor prediction results, especially the case of non-stationary data. Even after we try to induce the stationarity to the data - the models still don't perform well. One of the possible applications of these methods are for short time windows. Classic statistical methods might be more suitable for short term spans.
+
+
+
+# CNN models 
+
+
+
+
+
+# Neural Networks for Time Series: TDNN, RNN, LSTM 
+
+
+
+
+
+# Conclusion 
+
+
 
