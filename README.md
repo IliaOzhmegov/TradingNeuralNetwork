@@ -430,7 +430,7 @@ The simple RNN has showed quite a great results with an MSE equal to 0.06. As me
 
 Illustrated below  we can see that the model has quite correctly predicted the stock price. At the first graph the match is very precise. 
 
-![RNN Prediction](plots/modelling/simiple_models/prediction/RNN_prediction)
+![RNN Prediction](plots/modelling/simiple_models/prediction/RNN_prediction.png)
 
 **Simple TDNN** 
 
