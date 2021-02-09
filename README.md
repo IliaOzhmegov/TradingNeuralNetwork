@@ -3,21 +3,21 @@
 Folders and their meaning:
 
 * Folder `analysis` contains your python or jupyter notebook where put analysis 
-for a certain topic. Do not forget to put your name at the beginning.
+  for a certain topic. Do not forget to put your name at the beginning.
 * Folder `data` contains text data for training a model or for an analysis.
 * Folder `images` contains images for a report.
 * Folder `libs` contains framework that you would need more than once and you
-would like to make it into a nice wrapper (e.g. a window scaler).
+  would like to make it into a nice wrapper (e.g. a window scaler).
 * Folder `papers` contains articles that you found useful and decided to save 
-as access via a link is not possible.
+  as access via a link is not possible.
 * Folder `plots` contains your plots after analysis.
 * Folder `scripts` contains ETL or certain movements for a data transformation.
 
 Common rules:
 
 * DO NOT PUSH your changes directly into MASTER branch: work in your local 
-branch, then push your local branch, request a pull-request and after that 
-let the gatekeeper (Ilia) know that you want to do a merge.
+  branch, then push your local branch, request a pull-request and after that 
+  let the gatekeeper (Ilia) know that you want to do a merge.
 * Put your name(s) at the beginning of the python jupyter file(s).
 * If you are not sure, ask. It is faster to prevent an issue than to solve it.
 
@@ -97,6 +97,7 @@ We would like to biuld a tool for making a predictions from the candle plot, whe
 
 
 ​    
+
 # Financial & Trading Background 
 
 As you have guessed so far the project is mainly focused on financial domain. We think it would be a good idea to provide you with some guidance into the complicated world of trading and finance in order to give a better overview and justification of some of our choices. 
@@ -108,7 +109,7 @@ Simply speaking volatility is [*a measurement of price change*](https://www.wall
 To put it into context: 
 
 *  High volatility - suggests that the asset is subject to sharp price fluctuations. Consequently that would  mean that investing into such an asset will be associated with higher risks as there can be a negative spike in the price. On the other side such an asset is attractive to investors/traders as a positive spike may result in a large profit. 
-* Low volatility - suggests that the asset is subject to very little or almost no price fluctuations. Investment into such assets is associated with lower risks. Usually low volatility is relevant for well-established or old markets.
+*  Low volatility - suggests that the asset is subject to very little or almost no price fluctuations. Investment into such assets is associated with lower risks. Usually low volatility is relevant for well-established or old markets.
 
 At this point you probably would ask yourself whether CSPC and SP500 indexes are highly volatile? 
 
@@ -153,23 +154,24 @@ On the plot above you can see that one stock can face "bull" and "bear" periods.
 
 GOAL: It is a well spread to suffer. Get used to it!
 
-0. Read "Useful resources"  | DONE
+0. Read "Useful resources"  | NOT DONE
 1. Collect Data: (Everybody) (yahoo.finance) | DONE
 2. Conduct an initial analysis. | DONE
 3. Train A CNN to extract data from a picture of a candle.
-    1. Draw Candle plots for a fixed range (maybe a month) and save them as jpeg/png. | DONE 
-    2. Slice those candle plots into a single candle plot. | DONE 
-    3. Create labels out of those candle pictures. | DONE
-    4. Create CNN regression model for a candle. | DONE
+   1. Draw Candle plots for a fixed range (maybe a month) and save them as jpeg/png. | DONE 
+   2. Slice those candle plots into a single candle plot. | DONE 
+   3. Create labels out of those candle pictures. | DONE
+   4. Create CNN regression model for a candle. | DONE
 4. Apply Classic Approaches for Time series data:
-    1. The autoregressive model AR(p). | DONE
-    2. The moving average MA(q) Model. | DONE
-    3. The ARMA(p,q) Model. | DONE
-    4. Maybe show partial autocorrelation function. | DONE
+   1. The autoregressive model AR(p). | DONE
+   2. The moving average MA(q) Model. | DONE
+   3. The ARMA(p,q) Model. | DONE
+   4. Maybe show partial autocorrelation function. | DONE
 5. Apply a NN:
-    1. Apply a time delay neural networks TDNN. | DONE
-    2. Apply a simple recurrent neural network RNN. | DONE
-    3. Apply a LSTM. | DONE
+   1. Apply a time delay neural networks TDNN. | DONE
+   2. Apply a simple recurrent neural network RNN. | DONE
+   3. Apply a LSTM. | DONE
+   4. Apply a CNN | DONE
 6. Compare results.
 
 
@@ -198,9 +200,13 @@ Initially we intended to use Bitcoin data for our research. But for reasons abov
 
 
 
-**Data Description.**
+# Data Description
 
-The original data is located in the "^GSPC" csv file. Name "^GSPC" is the listed symbol of the S&P500 on the NYSE, Cboe BZX Exchange, NASDAQ exchanges. Data consists of 23,337 observations and 7 variables, including: Date, Open, High, Low, Close, Adjusted Close prices and volume. Here is the sample. 
+
+
+Data preparation has been a significan part of our project as we deal with images of the financial time series data - it required a lot of preprocessing for various tasks. The complete pipeline is described below in this chapter.
+
+The original data is located in the *"^GSPC*" csv file. Name "^GSPC" is the listed symbol of the S&P500 on the NYSE, Cboe BZX Exchange, NASDAQ exchanges. Data consists of 163,638 observations and 7 variables, including: Date, Open, High, Low, Close, Adjusted Close prices and volume. Here is the sample.
 
 ![yahoo](images/gspc.png)
 
@@ -208,28 +214,80 @@ The original data is located in the "^GSPC" csv file. Name "^GSPC" is the listed
 
 The time span of our data is from December 30, 1927 to January 22, 2021 - almost hundred years of data. 
 
-Also, there is a shortened version of the raw data - the "SP500" csv file. Since more reliable data is from aproximatelly 1962, we have discarted the data before January 2, 1962. More on this in the following chapter "Initial Analysis".
 
-In addition, as part of the data preparation, we have create the sequences of the data. They were created by building a custom sequence distributor (see sequence_distributor.py) to slice data into the small windows of 30 days each, which will be used as predictors, and the slices with the span of 5 days - the target values that need to be predicted. The predictor and target data were scaled separetelly using different approaches. So overall we have created 14,832 sequences. These sequences were used as an inputs for our Time Series Neural Networks: TDNN, LSTM, RNN.
+
+**Sequences**
+
+We have created a shortened version of the raw data - the *"SP500"* csv file. Since more reliable data is from aproximatelly 1962, we have discarted the data before January 2, 1962. 
+
+Next, as part of the data preparation, we have create the sequences of these data. They were created by building a custom sequence distributor (see *sequence_distributor.py*) to slice data into the small windows of 30 days each, which will be used as predictors, and the slices with the span of 5 days - the target values that need to be predicted. The predictor and target data were scaled separetelly using different approaches. For  example, the 30-day predictor sequences were scaled by taking the minimum and maximus values: 4.5% and 95.5% respectively. So overall we have created 14,832 sequences. These sequences were used as an inputs for our Time Series Neural Networks: TDNN, LSTM, RNN.
+
+
+
+**Pipeline** 
+
+For analyzing the raw visual data,  we had to create a certain pipeline to put it into the proper format and then make forecasts based on that. First of all, simply inputting the whole sequence of candle plots and asking the models to make a forecast - (continue the picture) is not the best approach for our specific task. We need to detach the individual candles in the first place, remove the background noise (for instance the grid) and so on. The illustration below demonstrates how we do it. 
+
+![Pipeline](images/pipeline_ps.png)
+
+
+
+1. We take the  images with candle plots and then pass them trough our **selector**. The purpose of the **selector** is to find and detach each individual candle into separate images. 
+2. As an output we get separated candles. 
+3. Afterwards, we pass each individual candle trough **interpreter**. The purpose of interpreter is to convert  individual candles into more convenient numeric representation which we have already mentioned. 
+4.  Afterwards we get the **HLOC** (High, Low, Open, and Close) values of our candles. The variable **__t__** represents the sequence of the candle. In other words the order. The index **__k__** - is the total number of candles at the input. It is very important to keep the sequence of the candles although we separate them as each next candle is dependent on previous one. 
+5. As we get our data converted into convenient **HLOC** format we start the forecasting process using our ANN models by inputting those sequences into them. As an output we get the **HLOC** and **t<sub>k+1</sub>** values of the predicted candles. These predicted and input values together can be used by our candle plot generator to obtain the whole candle plot with forecasted candles. 
 
 
 
 **Candles.**
 
-Other part of our data preparation process we have created an images of the candles. This was a tedious process, where we had to create candle plots and "cut-out" each vandle separately. In addition, we have added a backgroud noise. Here are the samples of these candles.
+Other part of our data preparation process we have created an images of the candles (see *candle_builder.py*). This was a tedious process, where we had to create candle plots and "cut-out" each candle separately. We did so by drawing the 30-day slices of the data, then slicing each of them into individual plots. These individual plots contain a sindle candle with preserved spatial properties (including the center). The size of each candle box is 34 (width) x 200 (hight) pixels. 
+
+For model robustness, we have introduced a parameter *lambda λ* that controls the transparency of the candle color. In addition, we have added some background noise. Here are the samples of these candles.
 
 
 
-<img src="plots/candles/2_0.png" alt="ACF_plot" style="zoom:100%;" />      <img src="plots/candles/3_26.png" alt="ACF_plot" style="zoom:100%;" />       <img src="plots/candles/3_20.png" alt="ACF_plot" style="zoom:100%;" />        <img src="plots/candles/4_2.png" alt="ACF_plot" style="zoom:100%;" />       <img src="plots/candles/232_22.png" alt="ACF_plot" style="zoom:100%;" />
+<img src="plots/candles/2_0.png" alt="ACF_plot" style="zoom:100%;" />      <img src="plots/candles/3_26.png" alt="ACF_plot" style="zoom:100%;" />       <img src="plots/candles/3_20.png" alt="ACF_plot" style="zoom:100%;" />        <img src="plots/candles/0_3.png" alt="ACF_plot" style="zoom:100%;" />       <img src="plots/candles/0_1.png" alt="ACF_plot" style="zoom:100%;" />
 
 
+
+The names of the images of the individual candles are not random. They folow a pre-defined convention where first number of the image name means it belongs to the according sequence file, and the second number means the corresponding row number of that particular sequence. For example, if we are looking at the candle with name "7_1.png", it means that it belongs to the 7th sequence, 1st row in that 7th sequence.
 
 These images of the candles were used as an input for CNN. More on the CNN methods later in the report.
 
 
->>>>>>> master
 
-The data we are using is inclined towards a bullish market. 
+**Selector.**
+
+Our initial idea was to create a *selector* that would do a sophisticated slicing of the candle plots, however due to time constrains it is not ready. So the way it would work - it would take a part of the image with size 1150 x 210 pixels, and similarly to the *candle_builder*, would cut-off the slices of the image with candles with step size of 3 pixels in between the cuts. 
+
+it would also calculate the gradient on x-axis that corresponds to and shows some edges of the candle. It would determine the center of the image and would add 17 pixels on each side of the of the slice. It would result in some brighter clusters and combine them together.
+
+Then our selector would pass on this new data (individual images of the candles) to the interpretator.
+
+
+
+# CNN Regressor 
+
+
+
+**Train Interpretator.**
+
+We have created a so called train "interpretator" (see *"train_interpretator.py"*) that trains CNN regressor model and outputs a price predictions for our **HLOC** values (High, Low, Open, Close). The architecture of this CNN model was inspired by AlexNet. Below is the performance result of our model, which gives quite good predictions.
+
+![train_AR](plots/training_history_of_interpretator.png)
+
+*"check_iterpretator.py"* - checks how our interpretator works. 
+
+
+
+
+
+
+>>>>>>> master
+>>>>>>>
+>>>>>>> 
 
 # Initial Analysis 
 
@@ -295,7 +353,7 @@ In an Autoregressive model, we forecast the Adjusted Close price using a linear 
 
 We first check our data for autocorrelation.
 
-<img src="plots/lena/Autocorrelation plot.png" alt="ACF_plot" style="zoom:100%;" />
+![Autocorrelation_plot](plots/lena/Autocorrelation plot.png)
 
 
 
@@ -337,7 +395,7 @@ We can also do a seasonal decomposition to detect seasonality in out data.
 
 
 
-<img src="plots/lena/Seasonal Decomposition.png" alt="ACF_plot" style="zoom:100%;" />
+![AR_test](plots/lena/Seasonal Decomposition.png)
 
 
 
@@ -364,30 +422,4 @@ Again, as with AR model, ARMA model is highly overfitted and gives very poor pre
 Classic Statistical approaches to Time Series data are really good to analize the structure of the data. But they generally  give poor prediction results, especially the case of non-stationary data. Even after we try to induce the stationarity to the data - the models still don't perform well. One of the possible applications of these methods are for short time windows. Classic statistical methods might be more suitable for short term spans.
 
 
-
-# CNN models 
-
-
-
-
-
-# Neural Networks for Time Series: TDNN, RNN, LSTM 
-
-
-
-
-
-# Conclusion 
-
-
-
-This was very interesting and complex project - we looked at the task from the various angels and applied many different models. Hovewer the project ended up being of a larger scale than we originally presumed. But this is exactly what have made this project even more interesting and we intent to continue working on it after the end of the Lerning from Images Course.
-
-The idea of this project is to build a Convolutional Neural Network that would predict the S&P500 index market movement and price. In addition to this, we have disided to compare other Time Series approaches, including classic Time Series models as well as more contemporary and recent methods such as Time Delay Neural Net, Reccurent NN, and Long Short-Term Memory NN.
-
-The traditional Time Series approaches, such as Moving Average, Autoregressive and ARMA methods, resulted in low performance with poor predictions.
-
-Time Series Neural Networks proved to be a lot more effective and much better in making predictions. RNN and LSTM had almost similar performances. To our big surprise - our TDNN model had the best performance and bit other Neural Nets, giving the lowest Mean Absolute Error.
-
-Our CNN model had the lowest performance among the Neural Net models, however it had still bit our expectations as we were not sure if this type of model would be able to make predictions on the stock market data. And to our pleasant surprise CNN model was able to make some accurate predictions even though not as accurate as Time Series Neural Nets.
 
