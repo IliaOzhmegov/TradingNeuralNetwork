@@ -381,3 +381,13 @@ Classic Statistical approaches to Time Series data are really good to analize th
 
 
 
+This was very interesting and complex project - we looked at the task from the various angels and applied many different models. Hovewer the project ended up being of a larger scale than we originally presumed. But this is exactly what have made this project even more interesting and we intent to continue working on it after the end of the Lerning from Images Course.
+
+The idea of this project is to build a Convolutional Neural Network that would predict the S&P500 index market movement and price. In addition to this, we have disided to compare other Time Series approaches, including classic Time Series models as well as more contemporary and recent methods such as Time Delay Neural Net, Reccurent NN, and Long Short-Term Memory NN.
+
+The traditional Time Series approaches, such as Moving Average, Autoregressive and ARMA methods, resulted in low performance with poor predictions.
+
+Time Series Neural Networks proved to be a lot more effective and much better in making predictions. RNN and LSTM had almost similar performances. To our big surprise - our TDNN model had the best performance and bit other Neural Nets, giving the lowest Mean Absolute Error.
+
+Our CNN model had the lowest performance among the Neural Net models, however it had still bit our expectations as we were not sure if this type of model would be able to make predictions on the stock market data. And to our pleasant surprise CNN model was able to make some accurate predictions even though not as accurate as Time Series Neural Nets.
+
