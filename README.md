@@ -295,7 +295,7 @@ In an Autoregressive model, we forecast the Adjusted Close price using a linear 
 
 We first check our data for autocorrelation.
 
-![autocorrelation](plots/lena/Autocorrelation plot.png)
+<img src="plots/lena/Autocorrelation plot.png" alt="ACF_plot" style="zoom:100%;" />
 
 
 
@@ -337,7 +337,7 @@ We can also do a seasonal decomposition to detect seasonality in out data.
 
 
 
-![decomposition](plots/lena/Seasonal Decomposition.png)
+<img src="plots/lena/Seasonal Decomposition.png" alt="ACF_plot" style="zoom:100%;" />
 
 
 
