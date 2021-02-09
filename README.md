@@ -464,7 +464,7 @@ From the plot below we observe a large distance between the predicted and true p
 
 **Final overview of simple models**
 
-![Simple Overview](plots/modelling/simple_models/performance)
+![Simple Overview](plots/modelling/simiple_models/performance.png)
 
 First of all, there is a little difference performance-wise between the validation and test sets which good considering the significant difference between the two. 
 
