@@ -424,43 +424,43 @@ The first thing we notice immediately for all models is that the models' trainin
 
 **Simple RNN**
 
-![RNN History](plots/modelling/simple_models/RNN_history.png)
+![RNN History](plots/modelling/simiple_models/RNN_history.png)
 
 The simple RNN has showed quite a great results with an MSE equal to 0.06. As mentioned above the stagnation in training occurred quite early - at the 2<sup>nd</sup> epoch.
 
 Illustrated below  we can see that the model has quite correctly predicted the stock price. At the first graph the match is very precise. 
 
-![RNN Prediction](plots/modelling/simple_models/prediction/RNN_prediction)
+![RNN Prediction](plots/modelling/simiple_models/prediction/RNN_prediction)
 
 **Simple TDNN** 
 
-![TDNN History](plots/modelling/simple_models/TDNN_history.png)
+![TDNN History](plots/modelling/simiple_models/TDNN_history.png)
 
 The simple TDNN has showed worse results than RNN with the best MSE equal 0.014. For training set the stagnation as opposed to RNN occurred relatively late at around 14<sup>th</sup> epoch. Contrary to RNN the MSE for validation set differentiates from the training set. There is less improvement with additional epochs.
 
-![TDNN Prediction](plots/modelling/simple_models/TDNN_prediction.png)
+![TDNN Prediction](plots/modelling/simiple_models/prediction/TDNN_prediction.png)
 
 Here we can see again that despite being not completely precise, the match is still quite good enough with a mismatch of maximum 0.1 on a normalized prices.
 
 **Simple LSTM** 
 
-![LSTM History](plots/modelling/simple_models/LSTM_history.png)
+![LSTM History](plots/modelling/simiple_models/LSTM_history.png)
 
 As in RNN the stagnation in training occurs almost immediately, meaning there is no significant improvement in the performance after the  2<sup>nd</sup> epoch. The MSE curvatures both for training and validation correlate with each other. 
 
-![Prediction](plots/modelling/simple_models/LSTM_prediction.png)
+![Prediction](plots/modelling/simiple_models/prediction/LSTM_prediction.png)
 
 Prediction-wise we can see that the model provides noticeably good results. 
 
 Simple CNN 
 
-![CNN History](plots/modelling/simple_models/CNN_history.png)
+![CNN History](plots/modelling/simiple_models/CNN_history.png)
 
 We were quite excited about applying the CNN onto our data as usually it is rarely applied to analyze such kind of data - rather for image analysis. At the end of the day images are also a set of numbers, so we expected some nice results from CNN as well. From the plot above we can clearly see that results  are  good - it can predict the tendency correctly, - but not the best actually opposite. Again the same tendency occurs and model quickly reaches saturation in the training process after the 3<sup>rd</sup> epoch. 
 
 From the plot below we observe a large distance between the predicted and true price. Compared to previous models the difference is quite noticeable. 
 
-![CNN History](plots/modelling/simple_models/plots/CNN_prediction.png)
+![CNN History](plots/modelling/simiple_models/CNN_prediction.png)
 
 **Final overview of simple models**
 
