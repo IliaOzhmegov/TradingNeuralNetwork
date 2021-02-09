@@ -394,7 +394,7 @@ We have decided to go with for NN architectures:
   * The strength of the **TDNN** comes from its ability to examine objects shifted in **time** forward and backward to define an object detectable as the **time** is altered.  If an object can be recognized in this manner, an application can plan on that object to be found in the future and perform an optimal action.
 * LSTMs - Long Short Term Memory NNs
   * The memory property of such networks helps them to keep the time related dependencies of sequence data. 
-  *  (**LSTM** is able to solve many **time series** tasks unsolvable by feed-forward networks using fixed size **time** windows.
+  * (**LSTM** is able to solve many **time series** tasks unsolvable by feed-forward networks using fixed size **time** windows.
 * CNN  - Convolutional Neural Networks
   * One of the advantages of **CNNs**  is that it automatically detects the important features, requires fewer hyperparameters, and less human supervision.
   * Generally, performance-wise (computational time) **CNNs** considered to be a bit faster than **RNNs**. 
@@ -416,7 +416,7 @@ It should be mentioned that the periods between 70% and 90% are the bearish peri
 We have decided to use two approaches:
 
 * Simple - where we try to predict one variable  - **_"Close"_** 
-* Complex - where we try to predict the whole sequence. 
+* Complex - where we try to predict the whole sequence (all columns) as in multivariate time-series analysis. 
 
 **Simple Models Results**
 
@@ -448,7 +448,7 @@ Here we can see again that despite being not completely precise, the match is st
 
 As in RNN the stagnation in training occurs almost immediately, meaning there is no significant improvement in the performance after the  2<sup>nd</sup> epoch. The MSE curvatures both for training and validation correlate with each other. 
 
-![Prediction](plots/modelling/simiple_models/prediction/LSTM_prediction.png)
+![LSTM Prediction](plots/modelling/simiple_models/prediction/LSTM_prediction.png)
 
 Prediction-wise we can see that the model provides noticeably good results. 
 
@@ -460,7 +460,7 @@ We were quite excited about applying the CNN onto our data as usually it is rare
 
 From the plot below we observe a large distance between the predicted and true price. Compared to previous models the difference is quite noticeable. 
 
-![CNN History](plots/modelling/simiple_models/CNN_prediction.png)
+![CNN Prediction](plots/modelling/simiple_models/CNN_prediction.png)
 
 **Final overview of simple models**
 
@@ -469,3 +469,67 @@ From the plot below we observe a large distance between the predicted and true p
 First of all, there is a little difference performance-wise between the validation and test sets which good considering the significant difference between the two. 
 
 Overall, for simple models the TDNN has showed the best performance. RNNs and LSTMs showed quite similar performance and CNN was the worst. 
+
+candlesss
+
+**Complex Models Results** 
+
+The idea of complex models was to use and predict all available variables. The models were also changed a bit for that purpose. Additional layers were introduced. Immediately we can notice that our models converged quick quickly - usually at the first 5 epochs. One more difference compared to simple models is that we try to predict five days instead of one
+
+![]
+
+**Complex RNN**
+
+![Complex RNN History](plots/modelling/complex_models/RNN_history.png)
+
+The model converged almost immediately without any significant improvement after the 2<sup>nd</sup> epoch. We should also keep in mind that our RNN faced additional improvements like new layers and introduced dropout. That is one more reason why this model is called Complex RNN. 
+
+![RNN Prediction](plots/modelling/complex_models/prediction/RNN_close_prediction.png)
+
+From the plot above we can see that most of the times the prediction was spot on with very little distance between predicted and true value. 
+
+**Complex LSTM** 
+
+![Complex LSTM History](plots/modelling/complex_models/LSTM_history.png)
+
+As the Complex RNN the LSTM model converged quick fast - there was no significant improvement after the first-second epoch. Compared to simple LSTM the model demonstrated a bit better performance with MSE  = 0.04.
+
+![Complex LSTM Prediction](plots/modelling/complex_models/prediction/LSTM_close_prediction.png)
+
+We can see that the prediction is not as good as it was with Complex RNN, sometimes the gap between the prediction and true value is quite large. Interestingly enough the model continue the plot in a straight way and thus doesn't follow the curvature of true values.
+
+**Complex TDNN** 
+
+![Complex TDNN History](plots/modelling/complex_models/TDNN_history.png)
+
+Performance-wise complex TDNN performed worse than simple TDNN (which was the best among simple models). Overall the performance is compatible with the Complex LSTM. The model also converges quick quickly in terms of epochs.
+
+![Complex TDNN Prediction](plots/modelling/complex_models/prediction/TDNN_close_prediction.png)
+
+Sometimes the model provides a spot on prediction if we look at the third plot. It seems that it follows the general trend of the curve but with certain shifts. 
+
+**Complex CNN** 
+
+![Complex CNN History](plots/modelling/complex_models/CNN_history.png)
+
+Here the CNN has not surprised us with a great performance. However, that could be expected as we are not analyzing the images to be precise, so probably that is why simpler models like RNN provide a better performance. As al the models before the model converges quick quickly. It doesn't become better with more iterations. 
+
+![Complex CNN Prediction](plots/modelling/complex_models/CNN_close_prediction.png) 
+
+It seems like Complex CNN provides spot on results when it comes to predicting a straight trend. When the trend is slightly curved the model provides quite bad results. In other words the model is not quite good at predicting the shifts but still manages to some extent predict the trends. 
+
+**Final overview of complex models** 
+
+![Complex CNN Prediction](plots/modelling/complex_models/performance.png)
+
+The complex models overall provided a better performance than simple models. However, that is not the case for TDNN which was the best in this regard. Nonetheless, we are mostly interested to compare the complex models with one another. CNN and LSTM has lost to TDNN and RNN with a very negligible difference. In the result RNN provided the best results with slightly better results than TDNN. 
+
+
+
+candless
+
+
+
+**Conclusion**
+
+Up to this point we can see that ANNs can predict the stock prices with noticeable results. They have definitely proved that they worth to be used for such kind of analysis. Still business wise the performance is not good enough to connect those models to any trading models and use them as automated/robot traders. However, as we noticed with RNNs - there is always space for improvement (adding dropout or additional layers for example).
