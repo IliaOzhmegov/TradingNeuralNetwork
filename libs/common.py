@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 
 from libs.config import SEQUENCES_PATH, SEQUENCES_PATH_
 
+MAX_EPOCHS = 20
 
 class Scaler:
     _PMIN = 0.044545454545454545
@@ -232,3 +233,28 @@ def load_sequence_dataset():
             continue
 
     return sequences
+
+
+def compile_and_fit(model, window, patience=5):
+    early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss',
+                                                      patience=patience,
+                                                      mode='min')
+
+    model.compile(loss=tf.losses.MeanSquaredError(),
+                  optimizer=tf.optimizers.Adam(),
+                  metrics=[tf.metrics.MeanAbsoluteError()])
+
+    history = model.fit(window.train, epochs=MAX_EPOCHS,
+                        validation_data=window.val,
+                        callbacks=[early_stopping])
+    return history
+
+
+def plot_loss(history, title):
+    plt.plot(history.history['loss'], label='loss')
+    plt.plot(history.history['val_loss'], label='val_loss')
+    plt.title(title)
+    plt.xlabel('Epoch')
+    plt.ylabel('Error [MSE]')
+    plt.legend()
+    plt.grid(True)
