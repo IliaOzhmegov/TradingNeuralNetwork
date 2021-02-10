@@ -415,20 +415,213 @@ Again, as with AR model, ARMA model is highly overfitted and gives very poor pre
 
 **Conclusion**
 
-Classic Statistical approaches to Time Series data are really good to analize the structure of the data. But they generally  give poor prediction results, especially the case of non-stationary data. Even after we try to induce the stationarity to the data - the models still don't perform well. One of the possible applications of these methods are for short time windows. Classic statistical methods might be more suitable for short term spans.
+Classic Statistical approaches to Time Series data are really good to analize the structure of the data. 
+But they generally  give poor prediction results, especially the case of non-stationary data. Even 
+after we try to induce the stationarity to the data - the models still don't perform well. One of the 
+possible applications of these methods are for short time windows. Classic statistical methods might be 
+more suitable for short term spans.
 
 
+# Non-classical approaches - ANN 
 
-# CNN models 
+## Introduction
+
+As mentioned above classical methods are good when it comes to analyzing stationary timeseries data. 
+However the data we use as mostly any stock exchange data is non-stationary. This makes Neural Network 
+particular attractive for us as there is no proof that they are bad at working with non-stationary data. 
+Our idea was to use four different ANNs architectures and find the one that performs the best. 
+
+## Model Choice
+
+We have decided to go with for NN architectures: 
+
+* RNNs - Recurrent Neural Networks 
+  * That was an obvious choice as **RNNs** can be used to model sequence of data (i.e. time series) so that 
+  each sample can be assumed  to be dependent on previous ones.
+  * It can be also easily integrated with other layers like CNNs to extend the effective pixel neighborhood. 
+* TDNNs - Time-Delay Neural Networks 
+  * The strength of the **TDNN** comes from its ability to examine objects shifted in **time** forward and 
+  backward to define an object detectable as the **time** is altered.  If an object can be recognized in this 
+  manner, an application can plan on that object to be found in the future and perform an optimal action.
+* LSTMs - Long Short Term Memory NNs
+  * The memory property of such networks helps them to keep the time related dependencies of sequence data. 
+  * (**LSTM** is able to solve many **time series** tasks unsolvable by feed-forward networks using fixed 
+  size **time** windows.
+* CNN  - Convolutional Neural Networks
+  * One of the advantages of **CNNs**  is that it automatically detects the important features, requires 
+  fewer hyperparameters, and less human supervision.
+  * Generally, performance-wise (computational time) **CNNs** considered to be a bit faster than **RNNs**. 
+
+## Model Settings
+
+**Data Split** 
+
+The data was split in the following way : 
+
+* The first 70% of the whole dataset for the **training** set. (0-70)
+* The next 30% of the dataset for the **validation** set. (70-90)
+* The rest 10% for the **testing** set. (90-100)
+
+It should be mentioned that the periods between 70% and 90% are the bearish periods, meaning the market prices 
+had stagnated and started to decrease. As mentioned above for any model it is quite hard to predict **"bull"** 
+or **"bear"** runs, thus it adds additional challenge for our model. The testing set catches the period of 
+**"bull"** run which also introduces additional sophistications for our models. A `WindowGenerator` was created 
+to define the shift and the number of variables which will be used for the training, validation, and testing. 
+
+**Results** 
+
+We have decided to use two approaches:
+
+* Simple - where we try to predict one variable  - **_"Close"_** 
+* Complex - where we try to predict the whole sequence (all columns) as in multivariate time-series analysis. 
+
+## Simple Models Results
+
+The first thing we notice immediately for all models is that the models' training stagnate quite quickly. In 
+other words there is no significant improvement after a couple or more epochs. The `EarlyStopping`  stops 
+the model training after the stagnation occurs - usually at the 10th epochs. Here we are trying to predict the next day. 
+
+![Tiny Window](plots/modelling/simiple_models/tiny_narrow_window.png)
+
+### Simple RNN 
+
+![RNN History](plots/modelling/simiple_models/RNN_history.png)
+
+The simple RNN has showed quite a great results with an MSE equal to 0.06. As mentioned above the stagnation in 
+training occurred quite early - at the 2<sup>nd</sup> epoch.
+
+Illustrated below  we can see that the model has quite correctly predicted the stock price. At the first graph 
+the match is very precise. 
+
+![RNN Prediction](plots/modelling/simiple_models/prediction/RNN_prediction.png)
+
+### Simple TDNN
+
+![TDNN History](plots/modelling/simiple_models/TDNN_history.png)
+
+The simple TDNN has showed worse results than RNN with the best MSE equal 0.014. For training set the stagnation 
+as opposed to RNN occurred relatively late at around 14<sup>th</sup> epoch. Contrary to RNN the MSE for validation 
+set differentiates from the training set. There is less improvement with additional epochs.
+
+![TDNN Prediction](plots/modelling/simiple_models/prediction/TDNN_prediction.png)
+
+Here we can see again that despite being not completely precise, the match is still quite good enough with a 
+mismatch of maximum 0.1 on a normalized prices.
+
+### Simple LSTM
+
+![LSTM History](plots/modelling/simiple_models/LSTM_history.png)
+
+As in RNN the stagnation in training occurs almost immediately, meaning there is no significant improvement 
+in the performance after the  2<sup>nd</sup> epoch. The MSE curvatures both for training and validation 
+correlate with each other. 
+
+![LSTM Prediction](plots/modelling/simiple_models/prediction/LSTM_prediction.png)
+
+Prediction-wise we can see that the model provides noticeably good results. 
+
+### Simple CNN 
+
+![CNN History](plots/modelling/simiple_models/CNN_history.png)
+
+We were quite excited about applying the CNN onto our data as usually it is rarely applied to analyze such kind 
+of data - rather for image analysis. At the end of the day images are also a set of numbers, so we expected some 
+nice results from CNN as well. From the plot above we can clearly see that results  are  good - it can predict 
+the tendency correctly, - but not the best actually opposite. Again the same tendency occurs and model quickly 
+reaches saturation in the training process after the 3<sup>rd</sup> epoch. 
+
+From the plot below we observe a large distance between the predicted and true price. Compared to previous models 
+the difference is quite noticeable. 
+
+![CNN Prediction](plots/modelling/simiple_models/CNN_prediction.png)
+
+### Final overview of simple models
+
+![Simple Overview](plots/modelling/simiple_models/performance.png)
+
+First of all, there is a little difference performance-wise between the validation and test sets which good 
+considering the significant difference between the two. 
+
+Overall, for simple models the TDNN has showed the best performance. RNNs and LSTMs showed quite similar performance 
+and CNN was the worst. 
+
+## Complex Models Results
+
+The idea of complex models was to use and predict all available variables. The models were also changed a bit for 
+that purpose. Additional layers were introduced. Immediately we can notice that our models converged quick quickly
+- usually at the first 5 epochs. One more difference compared to simple models is that we try to predict five days 
+instead of one
+
+![Standard Window](plots/modelling/complex_models/standard_window.png)
+
+### Complex RNN
+
+![Complex RNN History](plots/modelling/complex_models/RNN_history.png)
+
+The model converged almost immediately without any significant improvement after the 2<sup>nd</sup> epoch. We should
+also keep in mind that our RNN faced additional improvements like new layers and introduced dropout. That is one more 
+reason why this model is called Complex RNN. 
+
+![RNN Prediction](plots/modelling/complex_models/prediction/RNN_close_prediction.png)
+
+From the plot above we can see that most of the times the prediction was spot on with very little distance between 
+predicted and true value. 
+
+## Complex LSTM 
+
+![Complex LSTM History](plots/modelling/complex_models/LSTM_history.png)
+
+As the Complex RNN the LSTM model converged quick fast - there was no significant improvement after the first-second 
+epoch. Compared to simple LSTM the model demonstrated a bit better performance with MSE  = 0.04.
+
+![Complex LSTM Prediction](plots/modelling/complex_models/prediction/LSTM_close_prediction.png)
+
+We can see that the prediction is not as good as it was with Complex RNN, sometimes the gap between the prediction 
+and true value is quite large. Interestingly enough the model continue the plot in a straight way and thus doesn't 
+follow the curvature of true values.
+
+### Complex TDNN
+
+![Complex TDNN History](plots/modelling/complex_models/TDNN_history.png)
+
+Performance-wise complex TDNN performed worse than simple TDNN (which was the best among simple models). Overall 
+the performance is compatible with the Complex LSTM. The model also converges quickly in terms of epochs.
+
+![Complex TDNN Prediction](plots/modelling/complex_models/prediction/TDNN_close_prediction.png)
+
+Sometimes the model provides a spot on prediction if we look at the third plot. It seems that it follows the general 
+trend of the curve but with certain shifts. 
+
+### Complex CNN
+
+![Complex CNN History](plots/modelling/complex_models/CNN_history.png)
+
+Here the CNN has not surprised us with a great performance. However, that could be expected as we are not analyzing 
+the images to be precise, so probably that is why simpler models like RNN provide a better performance. As all the 
+models before the model converges quite quickly. It doesn't become better with more iterations. 
+
+![Complex CNN Prediction](plots/modelling/complex_models/prediction/CNN_close_prediction.png) 
+
+It seems like Complex CNN provides spot on results when it comes to predicting a straight trend. When the trend is 
+slightly curved the model provides quite bad results. In other words the model is not quite good at predicting the 
+shifts but still manages to some extent predict the trends. 
+
+### Final overview of complex models
+
+![Complex CNN Prediction](plots/modelling/complex_models/performance.png)
+
+The complex models overall provided a better performance than simple models. However, that is not the case for TDNN 
+which was the best in this regard. Nonetheless, we are mostly interested to compare the complex models with one 
+another. CNN and LSTM has lost to TDNN and RNN with a very negligible difference. In the result RNN provided the 
+best results with slightly better results than TDNN. 
 
 
+### Conclusion
 
-
-
-# Neural Networks for Time Series: TDNN, RNN, LSTM 
-
-
-
+Up to this point we can see that ANNs can predict the stock prices with noticeable results. They have definitely proved 
+that they worth to be used for such kind of analysis. Still business wise the performance is not good enough to connect 
+those models to any trading models and use them as automated/robot traders. However, as we noticed with RNNs - there is 
+always space for improvement (adding dropout or additional layers for example).
 
 
 # Conclusion 
@@ -437,7 +630,7 @@ Classic Statistical approaches to Time Series data are really good to analize th
 
 This was very interesting and complex project - we looked at the task from the various angels and applied many different models. Hovewer the project ended up being of a larger scale than we originally presumed. But this is exactly what have made this project even more interesting and we intent to continue working on it after the end of the Lerning from Images Course.
 
-The idea of this project is to build a Convolutional Neural Network that would predict the S&P500 index market movement and price. In addition to this, we have disided to compare other Time Series approaches, including classic Time Series models as well as more contemporary and recent methods such as Time Delay Neural Net, Reccurent NN, and Long Short-Term Memory NN.
+The idea of this project is to build a Convolutional Neural Network that would predict the S&P500 index market movement and price. In addition to this, we haded to compare other Time Series approaches, including classic Time Series models as well as more contemporary and recent methods such as Time Delay Neural Net, Reccurent NN, and Long Short-Term Memory NN.
 
 Overall our project can be generalized into the following acomplished tasks:
 
