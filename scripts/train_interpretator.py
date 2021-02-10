@@ -76,11 +76,14 @@ def plot_loss(history):
     plt.plot(history.history['val_loss'], label='val_loss')
     plt.xlabel('Epoch')
     plt.ylabel('MSE')
+    plt.title("Interpretator Training")
     plt.legend()
     plt.grid(True)
 
 
+plt.figure(figsize=(12, 8))
 plot_loss(history)
-plt.show()
+plt.savefig("plots/training_history_of_interpretator.png")
+# plt.show()
 
 interpretator.save("../models/interpretator")
