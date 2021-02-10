@@ -154,7 +154,7 @@ On the plot above you can see that one stock can face "bull" and "bear" periods.
 
 GOAL: It is a well spread to suffer. Get used to it!
 
-0. Read "Useful resources"  | NOT DONE
+0. Read "Useful resources"  | DONE
 1. Collect Data: (Everybody) (yahoo.finance) | DONE
 2. Conduct an initial analysis. | DONE
 3. Train A CNN to extract data from a picture of a candle.
@@ -200,9 +200,13 @@ Initially we intended to use Bitcoin data for our research. But for reasons abov
 
 
 
-**Data Description.**
+# Data Description
 
-The original data is located in the "^GSPC" csv file. Name "^GSPC" is the listed symbol of the S&P500 on the NYSE, Cboe BZX Exchange, NASDAQ exchanges. Data consists of 163,638 observations and 7 variables, including: Date, Open, High, Low, Close, Adjusted Close prices and volume. Here is the sample.
+
+
+Data preparation has been a significant part of our project as we deal with images of the financial time series data - it required a lot of preprocessing for various tasks. The complete pipeline is described below in this chapter.
+
+The original data is located in the *"^GSPC*" csv file. Name "^GSPC" is the listed symbol of the S&P500 on the NYSE, Cboe BZX Exchange, NASDAQ exchanges. Data consists of 163,638 observations and 7 variables, including: Date, Open, High, Low, Close, Adjusted Close prices and volume. Here is the sample.
 
 ![yahoo](images/gspc.png)
 
@@ -210,13 +214,19 @@ The original data is located in the "^GSPC" csv file. Name "^GSPC" is the listed
 
 The time span of our data is from December 30, 1927 to January 22, 2021 - almost hundred years of data. 
 
-Also, there is a shortened version of the raw data - the "SP500" csv file. Since more reliable data is from aproximatelly 1962, we have discarted the data before January 2, 1962. More on this in the following chapter "Initial Analysis".
 
-In addition, as part of the data preparation, we have create the sequences of the data. They were created by building a custom sequence distributor (see sequence_distributor.py) to slice data into the small windows of 30 days each, which will be used as predictors, and the slices with the span of 5 days - the target values that need to be predicted. The predictor and target data were scaled separetelly using different approaches. So overall we have created 14,832 sequences. These sequences were used as an inputs for our Time Series Neural Networks: TDNN, LSTM, RNN.
+
+**Sequences**
+
+We have created a shortened version of the raw data - the *"SP500"* csv file. Since more reliable data is from aproximatelly 1962, we have discarted the data before January 2, 1962. 
+
+Next, as part of the data preparation, we have create the sequences of these data. They were created by building a custom sequence distributor (see *sequence_distributor.py*) to slice data into the small windows of 30 days each, which will be used as predictors, and the slices with the span of 5 days - the target values that need to be predicted. The predictor and target data were scaled separetelly using different approaches. For example, the 30-day predictor sequences were scaled by taking the **minimum** and **maximum** values as 0.04(45) and 0.95(45) respectively. The choice of such values can be explained by scale factor of plot function So overall we have created 14,832 sequences. These sequences were used as an inputs for our Time Series Neural Networks: TDNN, LSTM, RNN.
+
+
 
 **Pipeline** 
 
-Speaking of analyzing the raw visual data,  we had to create a certain pipeline to put it into the proper format and then make forecasts based on that. First of all, simply inputting the whole sequence of candle plots and asking the models to make a forecast -(continue the picture) is not the best approach for our specific task. We need to detach the individual candles in the first place, remove the background noise (for instance the grid) and so on. The illustration below demonstrates how we do it. 
+For analyzing the raw visual data,  we had to create a certain pipeline to put it into the proper format and then make forecasts based on that. First of all, simply inputting the whole sequence of candle plots and asking the models to make a forecast - (continue the picture) is not the best approach for our specific task. We need to detach the individual candles in the first place, remove the background noise (for instance the grid) and so on. The illustration below demonstrates how we do it. 
 
 ![Pipeline](images/pipeline_ps.png)
 
@@ -228,22 +238,52 @@ Speaking of analyzing the raw visual data,  we had to create a certain pipeline 
 4.  Afterwards we get the **HLOC** (High, Low, Open, and Close) values of our candles. The variable **__t__** represents the sequence of the candle. In other words the order. The index **__k__** - is the total number of candles at the input. It is very important to keep the sequence of the candles although we separate them as each next candle is dependent on previous one. 
 5. As we get our data converted into convenient **HLOC** format we start the forecasting process using our ANN models by inputting those sequences into them. As an output we get the **HLOC** and **t<sub>k+1</sub>** values of the predicted candles. These predicted and input values together can be used by our candle plot generator to obtain the whole candle plot with forecasted candles. 
 
+
+
 **Candles.**
 
-Other part of our data preparation process we have created an images of the candles. This was a tedious process, where we had to create candle plots and "cut-out" each candle separately. In addition, we have added a background noise. Here are the samples of these candles.
+Other part of our data preparation process we have created an images of the candles (see *candle_builder.py*). This was a tedious process, where we had to create candle plots and "cut-out" each candle separately. We did so by drawing the 30-day slices of the data, then slicing each of them into individual plots. These individual plots contain a sindle candle with preserved spatial properties (including the center). The size of each candle box is 34 (width) x 200 (hight) pixels. 
+
+For model robustness, we have introduced a parameter *lambda λ* that controls the transparency of the candle color, but also width of the each plots and slight swing to left and right.  In addition, we have added some background noise. Here are the samples of these candles.
 
 
 
-<img src="plots/candles/2_0.png" alt="ACF_plot" style="zoom:100%;" />      <img src="plots/candles/3_26.png" alt="ACF_plot" style="zoom:100%;" />       <img src="plots/candles/3_20.png" alt="ACF_plot" style="zoom:100%;" />        <img src="plots/candles/4_2.png" alt="ACF_plot" style="zoom:100%;" />       <img src="plots/candles/232_22.png" alt="ACF_plot" style="zoom:100%;" />
+<img src="plots/candles/2_0.png" alt="ACF_plot" style="zoom:100%;" />      <img src="plots/candles/3_26.png" alt="ACF_plot" style="zoom:100%;" />       <img src="plots/candles/3_20.png" alt="ACF_plot" style="zoom:100%;" />        <img src="plots/candles/0_3.png" alt="ACF_plot" style="zoom:100%;" />       <img src="plots/candles/0_1.png" alt="ACF_plot" style="zoom:100%;" />
 
 
+
+The names of the images of the individual candles are not random. They folow a pre-defined convention where first number of the image name means it belongs to the according sequence file, and the second number means the corresponding row number of that particular sequence. For example, if we are looking at the candle with name "7_1.png", it means that it belongs to the 7th sequence, 2nd row in that sequence file.
 
 These images of the candles were used as an input for CNN. More on the CNN methods later in the report.
 
 
->>>>>>> master
 
-The data we are using is inclined towards a bullish market. 
+**Selector.**
+
+However, further we are planning to change the naive approach above to a more robust one, which will calculate the x of "the center of mass" of every candle and then slice 17 pixels margin in both directions from the center. The center of mass can be calculated with OpenCV library.
+
+Then our selector would pass on this new data (individual images of the candles) to the interpretator.
+
+
+
+# CNN Regressor 
+
+
+
+**Train Interpretator.**
+
+We have created a so called train "interpretator" (see *"train_interpretator.py"*) that trains CNN regressor model and outputs a price predictions for our **HLOC** values (High, Low, Open, Close). The architecture of this CNN model was inspired by AlexNet. Below is the performance result of our model, which gives quite good predictions.
+
+![train_AR](plots/training_history_of_interpretator.png)
+
+*"check_iterpretator.py"* - checks how our interpretator works. 
+
+
+
+
+
+
+
 
 # Initial Analysis 
 
@@ -375,41 +415,58 @@ Again, as with AR model, ARMA model is highly overfitted and gives very poor pre
 
 **Conclusion**
 
-Classic Statistical approaches to Time Series data are really good to analize the structure of the data. But they generally  give poor prediction results, especially the case of non-stationary data. Even after we try to induce the stationarity to the data - the models still don't perform well. One of the possible applications of these methods are for short time windows. Classic statistical methods might be more suitable for short term spans.
+Classic Statistical approaches to Time Series data are really good to analize the structure of the data. 
+But they generally  give poor prediction results, especially the case of non-stationary data. Even 
+after we try to induce the stationarity to the data - the models still don't perform well. One of the 
+possible applications of these methods are for short time windows. Classic statistical methods might be 
+more suitable for short term spans.
+
 
 # Non-classical approaches - ANN 
 
-**Introduction** 
+## Introduction
 
-As mentioned above classical methods are good when it comes to analyzing stationary timeseries data. However the data we use as mostly any stock exchange data is non-stationary. This makes Neural Network particular attractive for us as there is no proof that they are bad at working with non-stationary data. Our idea was to use four different ANNs architectures and find the one that performs the best. 
+As mentioned above classical methods are good when it comes to analyzing stationary timeseries data. 
+However the data we use as mostly any stock exchange data is non-stationary. This makes Neural Network 
+particular attractive for us as there is no proof that they are bad at working with non-stationary data. 
+Our idea was to use four different ANNs architectures and find the one that performs the best. 
 
-**Model Choice** 
+## Model Choice
 
 We have decided to go with for NN architectures: 
 
 * RNNs - Recurrent Neural Networks 
-  * That was an obvious choice as **RNNs** can be used to model sequence of data (i.e. time series) so that each sample can be assumed  to be dependent on previous ones.
+  * That was an obvious choice as **RNNs** can be used to model sequence of data (i.e. time series) so that 
+  each sample can be assumed  to be dependent on previous ones.
   * It can be also easily integrated with other layers like CNNs to extend the effective pixel neighborhood. 
 * TDNNs - Time-Delay Neural Networks 
-  * The strength of the **TDNN** comes from its ability to examine objects shifted in **time** forward and backward to define an object detectable as the **time** is altered.  If an object can be recognized in this manner, an application can plan on that object to be found in the future and perform an optimal action.
+  * The strength of the **TDNN** comes from its ability to examine objects shifted in **time** forward and 
+  backward to define an object detectable as the **time** is altered.  If an object can be recognized in this 
+  manner, an application can plan on that object to be found in the future and perform an optimal action.
 * LSTMs - Long Short Term Memory NNs
   * The memory property of such networks helps them to keep the time related dependencies of sequence data. 
-  * (**LSTM** is able to solve many **time series** tasks unsolvable by feed-forward networks using fixed size **time** windows.
+  * (**LSTM** is able to solve many **time series** tasks unsolvable by feed-forward networks using fixed 
+  size **time** windows.
 * CNN  - Convolutional Neural Networks
-  * One of the advantages of **CNNs**  is that it automatically detects the important features, requires fewer hyperparameters, and less human supervision.
+  * One of the advantages of **CNNs**  is that it automatically detects the important features, requires 
+  fewer hyperparameters, and less human supervision.
   * Generally, performance-wise (computational time) **CNNs** considered to be a bit faster than **RNNs**. 
 
-**Model Settings** 
+## Model Settings
 
 **Data Split** 
 
 The data was split in the following way : 
 
-* 70% of the whole dataset for the **training** set.
-* 90% of the whole dataset for the **validation** set. 
-* The rest 10% for the **testing** set.
+* The first 70% of the whole dataset for the **training** set. (0-70)
+* The next 30% of the dataset for the **validation** set. (70-90)
+* The rest 10% for the **testing** set. (90-100)
 
-It should be mentioned that the periods between 70% and 90% are the bearish periods, meaning the market prices had stagnated and started to decrease. As mentioned above for any model it is quite hard to predict **"bull"** or **"bear"** runs, thus it adds additional challenge for our model. The testing set catches the period of **"bull"** run which also introduces additional sophistications for our models. A `WindowGenerator` was created to define the shift and the number of variables which will be used for the training, validation, and testing. 
+It should be mentioned that the periods between 70% and 90% are the bearish periods, meaning the market prices 
+had stagnated and started to decrease. As mentioned above for any model it is quite hard to predict **"bull"** 
+or **"bear"** runs, thus it adds additional challenge for our model. The testing set catches the period of 
+**"bull"** run which also introduces additional sophistications for our models. A `WindowGenerator` was created 
+to define the shift and the number of variables which will be used for the training, validation, and testing. 
 
 **Results** 
 
@@ -418,120 +475,184 @@ We have decided to use two approaches:
 * Simple - where we try to predict one variable  - **_"Close"_** 
 * Complex - where we try to predict the whole sequence (all columns) as in multivariate time-series analysis. 
 
-**Simple Models Results**
+## Simple Models Results
 
-The first thing we notice immediately for all models is that the models' training stagnate quite quickly. In other words there is no significant improvement after a couple or more epochs. The `EarlyStopping`  stops the model training after the stagnation occurs - usually at the 10th epochs. Here we are trying to predict the next day. 
+The first thing we notice immediately for all models is that the models' training stagnate quite quickly. In 
+other words there is no significant improvement after a couple or more epochs. The `EarlyStopping`  stops 
+the model training after the stagnation occurs - usually at the 10th epochs. Here we are trying to predict the next day. 
 
 ![Tiny Window](plots/modelling/simiple_models/tiny_narrow_window.png)
 
-**Simple RNN**
+### Simple RNN 
 
 ![RNN History](plots/modelling/simiple_models/RNN_history.png)
 
-The simple RNN has showed quite a great results with an MSE equal to 0.06. As mentioned above the stagnation in training occurred quite early - at the 2<sup>nd</sup> epoch.
+The simple RNN has showed quite a great results with an MSE equal to 0.06. As mentioned above the stagnation in 
+training occurred quite early - at the 2<sup>nd</sup> epoch.
 
-Illustrated below  we can see that the model has quite correctly predicted the stock price. At the first graph the match is very precise. 
+Illustrated below  we can see that the model has quite correctly predicted the stock price. At the first graph 
+the match is very precise. 
 
 ![RNN Prediction](plots/modelling/simiple_models/prediction/RNN_prediction.png)
 
-**Simple TDNN** 
+### Simple TDNN
 
 ![TDNN History](plots/modelling/simiple_models/TDNN_history.png)
 
-The simple TDNN has showed worse results than RNN with the best MSE equal 0.014. For training set the stagnation as opposed to RNN occurred relatively late at around 14<sup>th</sup> epoch. Contrary to RNN the MSE for validation set differentiates from the training set. There is less improvement with additional epochs.
+The simple TDNN has showed worse results than RNN with the best MSE equal 0.014. For training set the stagnation 
+as opposed to RNN occurred relatively late at around 14<sup>th</sup> epoch. Contrary to RNN the MSE for validation 
+set differentiates from the training set. There is less improvement with additional epochs.
 
 ![TDNN Prediction](plots/modelling/simiple_models/prediction/TDNN_prediction.png)
 
-Here we can see again that despite being not completely precise, the match is still quite good enough with a mismatch of maximum 0.1 on a normalized prices.
+Here we can see again that despite being not completely precise, the match is still quite good enough with a 
+mismatch of maximum 0.1 on a normalized prices.
 
-**Simple LSTM** 
+### Simple LSTM
 
 ![LSTM History](plots/modelling/simiple_models/LSTM_history.png)
 
-As in RNN the stagnation in training occurs almost immediately, meaning there is no significant improvement in the performance after the  2<sup>nd</sup> epoch. The MSE curvatures both for training and validation correlate with each other. 
+As in RNN the stagnation in training occurs almost immediately, meaning there is no significant improvement 
+in the performance after the  2<sup>nd</sup> epoch. The MSE curvatures both for training and validation 
+correlate with each other. 
 
 ![LSTM Prediction](plots/modelling/simiple_models/prediction/LSTM_prediction.png)
 
 Prediction-wise we can see that the model provides noticeably good results. 
 
-Simple CNN 
+### Simple CNN 
 
 ![CNN History](plots/modelling/simiple_models/CNN_history.png)
 
-We were quite excited about applying the CNN onto our data as usually it is rarely applied to analyze such kind of data - rather for image analysis. At the end of the day images are also a set of numbers, so we expected some nice results from CNN as well. From the plot above we can clearly see that results  are  good - it can predict the tendency correctly, - but not the best actually opposite. Again the same tendency occurs and model quickly reaches saturation in the training process after the 3<sup>rd</sup> epoch. 
+We were quite excited about applying the CNN onto our data as usually it is rarely applied to analyze such kind 
+of data - rather for image analysis. At the end of the day images are also a set of numbers, so we expected some 
+nice results from CNN as well. From the plot above we can clearly see that results  are  good - it can predict 
+the tendency correctly, - but not the best actually opposite. Again the same tendency occurs and model quickly 
+reaches saturation in the training process after the 3<sup>rd</sup> epoch. 
 
-From the plot below we observe a large distance between the predicted and true price. Compared to previous models the difference is quite noticeable. 
+From the plot below we observe a large distance between the predicted and true price. Compared to previous models 
+the difference is quite noticeable. 
 
 ![CNN Prediction](plots/modelling/simiple_models/CNN_prediction.png)
 
-**Final overview of simple models**
+### Final overview of simple models
 
 ![Simple Overview](plots/modelling/simiple_models/performance.png)
 
-First of all, there is a little difference performance-wise between the validation and test sets which good considering the significant difference between the two. 
+First of all, there is a little difference performance-wise between the validation and test sets which good 
+considering the significant difference between the two. 
 
-Overall, for simple models the TDNN has showed the best performance. RNNs and LSTMs showed quite similar performance and CNN was the worst. 
+Overall, for simple models the TDNN has showed the best performance. RNNs and LSTMs showed quite similar performance 
+and CNN was the worst. 
 
-candlesss
+## Complex Models Results
 
-**Complex Models Results** 
-
-The idea of complex models was to use and predict all available variables. The models were also changed a bit for that purpose. Additional layers were introduced. Immediately we can notice that our models converged quick quickly - usually at the first 5 epochs. One more difference compared to simple models is that we try to predict five days instead of one
+The idea of complex models was to use and predict all available variables. The models were also changed a bit for 
+that purpose. Additional layers were introduced. Immediately we can notice that our models converged quick quickly
+- usually at the first 5 epochs. One more difference compared to simple models is that we try to predict five days 
+instead of one
 
 ![Standard Window](plots/modelling/complex_models/standard_window.png)
 
-**Complex RNN**
+### Complex RNN
 
 ![Complex RNN History](plots/modelling/complex_models/RNN_history.png)
 
-The model converged almost immediately without any significant improvement after the 2<sup>nd</sup> epoch. We should also keep in mind that our RNN faced additional improvements like new layers and introduced dropout. That is one more reason why this model is called Complex RNN. 
+The model converged almost immediately without any significant improvement after the 2<sup>nd</sup> epoch. We should
+also keep in mind that our RNN faced additional improvements like new layers and introduced dropout. That is one more 
+reason why this model is called Complex RNN. 
 
 ![RNN Prediction](plots/modelling/complex_models/prediction/RNN_close_prediction.png)
 
-From the plot above we can see that most of the times the prediction was spot on with very little distance between predicted and true value. 
+From the plot above we can see that most of the times the prediction was spot on with very little distance between 
+predicted and true value. 
 
-**Complex LSTM** 
+## Complex LSTM 
 
 ![Complex LSTM History](plots/modelling/complex_models/LSTM_history.png)
 
-As the Complex RNN the LSTM model converged quick fast - there was no significant improvement after the first-second epoch. Compared to simple LSTM the model demonstrated a bit better performance with MSE  = 0.04.
+As the Complex RNN the LSTM model converged quick fast - there was no significant improvement after the first-second 
+epoch. Compared to simple LSTM the model demonstrated a bit better performance with MSE  = 0.04.
 
 ![Complex LSTM Prediction](plots/modelling/complex_models/prediction/LSTM_close_prediction.png)
 
-We can see that the prediction is not as good as it was with Complex RNN, sometimes the gap between the prediction and true value is quite large. Interestingly enough the model continue the plot in a straight way and thus doesn't follow the curvature of true values.
+We can see that the prediction is not as good as it was with Complex RNN, sometimes the gap between the prediction 
+and true value is quite large. Interestingly enough the model continue the plot in a straight way and thus doesn't 
+follow the curvature of true values.
 
-**Complex TDNN** 
+### Complex TDNN
 
 ![Complex TDNN History](plots/modelling/complex_models/TDNN_history.png)
 
-Performance-wise complex TDNN performed worse than simple TDNN (which was the best among simple models). Overall the performance is compatible with the Complex LSTM. The model also converges quick quickly in terms of epochs.
+Performance-wise complex TDNN performed worse than simple TDNN (which was the best among simple models). Overall 
+the performance is compatible with the Complex LSTM. The model also converges quickly in terms of epochs.
 
 ![Complex TDNN Prediction](plots/modelling/complex_models/prediction/TDNN_close_prediction.png)
 
-Sometimes the model provides a spot on prediction if we look at the third plot. It seems that it follows the general trend of the curve but with certain shifts. 
+Sometimes the model provides a spot on prediction if we look at the third plot. It seems that it follows the general 
+trend of the curve but with certain shifts. 
 
-**Complex CNN** 
+### Complex CNN
 
 ![Complex CNN History](plots/modelling/complex_models/CNN_history.png)
 
-Here the CNN has not surprised us with a great performance. However, that could be expected as we are not analyzing the images to be precise, so probably that is why simpler models like RNN provide a better performance. As al the models before the model converges quick quickly. It doesn't become better with more iterations. 
+Here the CNN has not surprised us with a great performance. However, that could be expected as we are not analyzing 
+the images to be precise, so probably that is why simpler models like RNN provide a better performance. As all the 
+models before the model converges quite quickly. It doesn't become better with more iterations. 
 
 ![Complex CNN Prediction](plots/modelling/complex_models/prediction/CNN_close_prediction.png) 
 
-It seems like Complex CNN provides spot on results when it comes to predicting a straight trend. When the trend is slightly curved the model provides quite bad results. In other words the model is not quite good at predicting the shifts but still manages to some extent predict the trends. 
+It seems like Complex CNN provides spot on results when it comes to predicting a straight trend. When the trend is 
+slightly curved the model provides quite bad results. In other words the model is not quite good at predicting the 
+shifts but still manages to some extent predict the trends. 
 
-**Final overview of complex models** 
+### Final overview of complex models
 
 ![Complex CNN Prediction](plots/modelling/complex_models/performance.png)
 
-The complex models overall provided a better performance than simple models. However, that is not the case for TDNN which was the best in this regard. Nonetheless, we are mostly interested to compare the complex models with one another. CNN and LSTM has lost to TDNN and RNN with a very negligible difference. In the result RNN provided the best results with slightly better results than TDNN. 
+The complex models overall provided a better performance than simple models. However, that is not the case for TDNN 
+which was the best in this regard. Nonetheless, we are mostly interested to compare the complex models with one 
+another. CNN and LSTM has lost to TDNN and RNN with a very negligible difference. In the result RNN provided the 
+best results with slightly better results than TDNN. 
+
+
+### Conclusion
+
+Up to this point we can see that ANNs can predict the stock prices with noticeable results. They have definitely proved 
+that they worth to be used for such kind of analysis. Still business wise the performance is not good enough to connect 
+those models to any trading models and use them as automated/robot traders. However, as we noticed with RNNs - there is 
+always space for improvement (adding dropout or additional layers for example).
+
+
+# Conclusion 
 
 
 
-candless
+This was very interesting and complex project - we looked at the task from the various angels and applied many different models. Hovewer the project ended up being of a larger scale than we originally presumed. But this is exactly what have made this project even more interesting and we intent to continue working on it after the end of the Lerning from Images Course.
 
+The idea of this project is to build a Convolutional Neural Network that would predict the S&P500 index market movement and price. In addition to this, we haded to compare other Time Series approaches, including classic Time Series models as well as more contemporary and recent methods such as Time Delay Neural Net, Reccurent NN, and Long Short-Term Memory NN.
 
+Overall our project can be generalized into the following acomplished tasks:
 
-**Conclusion**
+- Financial background.
+- Data collection.
+- Data Processing, including creation of the candle plot and slicing them into individual single candle plots.
+- Applying the classic approaches to the tme series data.
+- Developing **simple** and **complex** versions of the TDNN, RNN, LSTM and CNN.
+- Deriving the results.
 
-Up to this point we can see that ANNs can predict the stock prices with noticeable results. They have definitely proved that they worth to be used for such kind of analysis. Still business wise the performance is not good enough to connect those models to any trading models and use them as automated/robot traders. However, as we noticed with RNNs - there is always space for improvement (adding dropout or additional layers for example).
+The traditional Time Series approaches, such as Moving Average, Autoregressive and ARMA methods, resulted in low performance with poor predictions.
+
+Time Series Neural Networks proved to be a lot more effective and much better in making predictions. 
+
+We have developed two versions of each our our Neural Network: 
+
+- the **simple** models that predict only one variable with outcome value at t+1.
+- and **complex** models that make simultaneous multivariate multistep up to t+5 predictions.
+
+Among the **simple** models, RNN and LSTM had almost similar performances. To our big surprise - our TDNN model had the best performance and beat other Neural Nets, giving the lowest Mean Absolute Error.
+
+For **complex** models, RNN ended up being the best model with lowest Mean Absolute Error. TDNN model was second best - not too far off the RNN performance. And LSTM didn't perform as good with this task.
+
+Our CNN model had the lowest performance among the Neural Net models, however it still has beat our expectations as we were not sure if this type of model would be able to make predictions on the stock market data. And to our pleasant surprise CNN model was able to make some accurate predictions even though not as accurate as Time Series Neural Nets.
+
