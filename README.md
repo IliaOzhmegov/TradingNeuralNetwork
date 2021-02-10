@@ -664,3 +664,6 @@ For **complex** models, RNN ended up being the best model with lowest Mean Absol
 
 Our CNN model had the lowest performance among the Neural Net models, however it still has beat our expectations as we were not sure if this type of model would be able to make predictions on the stock market data. And to our pleasant surprise CNN model was able to make some accurate predictions even though not as accurate as Time Series Neural Nets.
 
+
+The results are promising. It is worth to take this seriously. 
+
