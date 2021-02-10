@@ -533,7 +533,7 @@ reaches saturation in the training process after the 3<sup>rd</sup> epoch.
 From the plot below we observe a large distance between the predicted and true price. Compared to previous models 
 the difference is quite noticeable. 
 
-![CNN Prediction](plots/modelling/simiple_models/CNN_prediction.png)
+![CNN Prediction](plots/modelling/simiple_models/prediction/CNN_prediction.png)
 
 ### Final overview of simple models
 
@@ -567,7 +567,9 @@ reason why this model is called Complex RNN.
 From the plot above we can see that most of the times the prediction was spot on with very little distance between 
 predicted and true value. 
 
-## Complex LSTM 
+![RNN Prediction-Comparison](plots/predictions/RNN_prediction.png)
+
+### Complex LSTM 
 
 ![Complex LSTM History](plots/modelling/complex_models/LSTM_history.png)
 
@@ -579,6 +581,8 @@ epoch. Compared to simple LSTM the model demonstrated a bit better performance w
 We can see that the prediction is not as good as it was with Complex RNN, sometimes the gap between the prediction 
 and true value is quite large. Interestingly enough the model continue the plot in a straight way and thus doesn't 
 follow the curvature of true values.
+
+![RNN Prediction-Comparison](plots/predictions/LSTM_prediction.png)
 
 ### Complex TDNN
 
@@ -592,7 +596,9 @@ the performance is compatible with the Complex LSTM. The model also converges qu
 Sometimes the model provides a spot on prediction if we look at the third plot. It seems that it follows the general 
 trend of the curve but with certain shifts. 
 
-### Complex CNN
+![RNN Prediction-Comparison](plots/predictions/TDNN_prediction.png)
+
+### Complex CNN
 
 ![Complex CNN History](plots/modelling/complex_models/CNN_history.png)
 
@@ -606,6 +612,8 @@ It seems like Complex CNN provides spot on results when it comes to predicting a
 slightly curved the model provides quite bad results. In other words the model is not quite good at predicting the 
 shifts but still manages to some extent predict the trends. 
 
+![RNN Prediction-Comparison](plots/predictions/CNN_prediction.png)
+
 ### Final overview of complex models
 
 ![Complex CNN Prediction](plots/modelling/complex_models/performance.png)
@@ -616,7 +624,7 @@ another. CNN and LSTM has lost to TDNN and RNN with a very negligible difference
 best results with slightly better results than TDNN. 
 
 
-### Conclusion
+### Comparing different ANN models
 
 Up to this point we can see that ANNs can predict the stock prices with noticeable results. They have definitely proved 
 that they worth to be used for such kind of analysis. Still business wise the performance is not good enough to connect 
